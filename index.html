@@ -2,7 +2,7 @@
 <html lang="ms">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#281044"><title>UBK SETASIK Racing Challenge 3D V1.6</title>
+<meta name="theme-color" content="#281044"><title>UBK SETASIK Racing Challenge 3D V2.0</title>
 <style>
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#180b2b;color:#fff;font-family:system-ui,Arial}#game{position:fixed;inset:0}canvas{display:block;width:100%;height:100%}
 .hud{position:fixed;inset:0;padding:12px;display:flex;flex-direction:column;justify-content:space-between;pointer-events:none}.top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.brand,.stat,.hint{background:#241044dc;border:1px solid #ffffff35;border-radius:13px;padding:8px 11px}.brand b{display:block;color:#ffd447;letter-spacing:.08em}.brand small{font-size:9px;letter-spacing:.12em}.stats{display:flex;gap:6px}.stat{text-align:center;min-width:60px}.stat span{display:block;color:#d9cdea;font-size:9px;text-transform:uppercase}.stat strong{font-size:17px;color:#ffd447}.bottom{display:flex;justify-content:space-between;align-items:end;gap:8px}.hint{font-size:11px;line-height:1.4}.controls{display:flex;gap:9px;pointer-events:auto}.sound-toggle{pointer-events:auto;border:1px solid #ffffff70;border-radius:12px;background:#51277ddd;color:#fff;padding:8px 11px;font-weight:800;font-size:11px;cursor:pointer}.sound-toggle.on{background:#ffd447;color:#281442}.ctrl{width:64px;height:58px;border:1px solid #ffffff75;border-radius:17px;background:#51277ddd;color:white;font-size:25px;font-weight:900;touch-action:manipulation}
@@ -11,13 +11,13 @@
 </style></head>
 <body>
 <div id="game"></div>
-<div class="hud hidden" id="hud"><div class="top"><div class="brand"><b>UBK SETASIK</b><small>RACING CHALLENGE 3D • V1.9</small></div><div class="stats"><div class="stat"><span>Skor</span><strong id="score">0</strong></div><div class="stat"><span>Jarak</span><strong id="dist">0m</strong></div><div class="stat"><span>Kelajuan</span><strong id="speed">1.0x</strong></div><div class="stat"><span>Nyawa</span><strong id="lives">♥ ♥ ♥</strong></div></div></div><div class="bottom"><div class="hint">Sentuh ◀ / ▶ untuk bergerak satu lorong<br>Langgar kotak ? untuk kuiz (+100 jika betul) • Bonus emas +50</div><div class="controls"><button class="sound-toggle on" id="soundToggle" type="button">♫ MUZIK ON</button><button class="ctrl" id="left">◀</button><button class="ctrl" id="right">▶</button></div></div></div>
-<div class="overlay" id="start"><div class="panel"><img class="school-logo" src="logo-sekolah.jpg" alt="Logo rasmi SMK Taman Tasik"><div class="logo">UNIT BIMBINGAN DAN KAUNSELING • SMK TAMAN TASIK</div><h1>RACING<br><em>CHALLENGE 3D</em></h1><p class="sub">V1.9 • CARTOON 3D CAR + QUESTION BOX • TIGA LORONG</p><p class="sub">Elak halangan dan langgar kotak soalan purple untuk cabaran minda!</p>
+<div class="hud hidden" id="hud"><div class="top"><div class="brand"><b>UBK SETASIK</b><small>RACING CHALLENGE 3D • V2.0</small></div><div class="stats"><div class="stat"><span>Skor</span><strong id="score">0</strong></div><div class="stat"><span>Jarak</span><strong id="dist">0m</strong></div><div class="stat"><span>Kelajuan</span><strong id="speed">1.0x</strong></div><div class="stat"><span>Nyawa</span><strong id="lives">♥ ♥ ♥</strong></div></div></div><div class="bottom"><div class="hint">Sentuh ◀ / ▶ untuk bergerak satu lorong<br>Langgar kotak ? untuk kuiz (+100 jika betul) • Bonus emas +50</div><div class="controls"><button class="sound-toggle on" id="soundToggle" type="button">♫ MUZIK ON</button><button class="ctrl" id="left">◀</button><button class="ctrl" id="right">▶</button></div></div></div>
+<div class="overlay" id="start"><div class="panel"><img class="school-logo" src="logo-sekolah.jpg" alt="Logo rasmi SMK Taman Tasik"><div class="logo">UNIT BIMBINGAN DAN KAUNSELING • SMK TAMAN TASIK</div><h1>RACING<br><em>CHALLENGE 3D</em></h1><p class="sub">V2.0 • TRAFFIC RACING + COLORFUL QUIZ BOX • TIGA LORONG</p><p class="sub">Elak kereta lain dan sentuh kotak soalan warna-warni untuk cabaran minda!</p>
 <div class="pick-title">1. PILIH KERETA KEGEMARAN</div>
 <div class="car-picks"><button class="pick selected" data-car="cute"><span class="car-icon">🚙</span>COMEL</button><button class="pick" data-car="sport"><span class="car-icon">🏎️</span>SPORT</button><button class="pick" data-car="formula"><span class="car-icon">🏁</span>FORMULA</button></div>
 <div class="pick-title">2. PILIH WARNA KERETA</div>
 <div class="color-picks"><button class="color-pick selected" data-color="843fc0" style="background:#843fc0" aria-label="Ungu"></button><button class="color-pick" data-color="e54242" style="background:#e54242" aria-label="Merah"></button><button class="color-pick" data-color="2587e8" style="background:#2587e8" aria-label="Biru"></button><button class="color-pick" data-color="20a568" style="background:#20a568" aria-label="Hijau"></button><button class="color-pick" data-color="ffb51b" style="background:#ffb51b" aria-label="Kuning"></button><button class="color-pick" data-color="f2f2f2" style="background:#f2f2f2" aria-label="Putih"></button></div>
-<div class="fields"><label>Nama pemain<input id="player" maxlength="24" placeholder="Nama pemain"></label><label>Tingkatan<select id="form"><option value="">Pilih tingkatan</option><option>Tingkatan 1</option><option>Tingkatan 2</option><option>Tingkatan 3</option><option>Tingkatan 4</option><option>Tingkatan 5</option><option>Guru</option></select></label><label style="grid-column:1/-1">Kelas (pilihan)<input id="class" maxlength="24" placeholder="Contoh: ALPHA"></label></div><button class="btn" id="startBtn">MULA PERLUMBAAN</button><div class="note">Tiga nyawa. Kotak ? membuka soalan UBK: betul +100, salah 0, terlepas 0. Bonus emas +50. Kelajuan meningkat sepanjang perlumbaan.</div></div></div>
+<div class="fields"><label>Nama pemain<input id="player" maxlength="24" placeholder="Nama pemain"></label><label>Tingkatan<select id="form"><option value="">Pilih tingkatan</option><option>Tingkatan 1</option><option>Tingkatan 2</option><option>Tingkatan 3</option><option>Tingkatan 4</option><option>Tingkatan 5</option><option>Guru</option></select></label><label style="grid-column:1/-1">Kelas (pilihan)<input id="class" maxlength="24" placeholder="Contoh: ALPHA"></label></div><button class="btn" id="startBtn">MULA PERLUMBAAN</button><div class="note">Tiga nyawa. Elak kereta sedan, SUV dan sport. Kotak kuiz berwarna: betul +100, salah 0, terlepas 0. Bonus emas +50.</div></div></div>
 <div class="overlay hidden" id="quiz"><div class="panel"><div class="logo">CHECKPOINT UBK • CABARAN MINDA</div><h2>Fikir sebelum bertindak!</h2><div class="sub" id="qCategory"></div><div class="question" id="question"></div><div class="answers" id="answers"></div><div class="msg" id="msg"></div><div class="note" id="qExplain"></div></div></div>
 <div class="overlay hidden" id="end"><div class="panel"><div class="logo">UBK SETASIK • KEPUTUSAN</div><h1>PERLUMBAAN TAMAT!</h1><p class="sub" id="result"></p><button class="btn" id="again">MAIN LAGI</button><div class="note">Terima kasih menyertai UBK SETASIK Racing Challenge 3D.</div></div></div>
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
@@ -116,24 +116,36 @@ function chooseColor(hex){chosenColor=parseInt(hex,16);document.querySelectorAll
 document.querySelectorAll('[data-car]').forEach(b=>b.addEventListener('click',()=>chooseCar(b.dataset.car)));
 document.querySelectorAll('[data-color]').forEach(b=>b.addEventListener('click',()=>chooseColor(b.dataset.color)));
 const scenery=[];function tree(x,z){let g=new THREE.Group(),tr=new THREE.Mesh(new THREE.CylinderGeometry(.13,.17,1.1,7),mat(0x80522d)),top=new THREE.Mesh(new THREE.ConeGeometry(.82,2.1,8),mat(0x267b50));tr.position.y=.55;top.position.y=2;g.add(tr,top);g.position.set(x,0,z);scene.add(g);scenery.push(g)}for(let z=10;z>-110;z-=10){tree(-7.5,z);tree(7.5,z-4)}
+// Bukit-bukau berlapis di latar belakang kiri dan kanan jalan.
+const hillMats=[mat(0x5b9b62),mat(0x78b66d),mat(0x477f59),mat(0x9ac77c)];
+for(let i=0;i<14;i++){const side=i%2===0?-1:1,z=-24-Math.floor(i/2)*13,h=7+(i%4)*2.2,w=8+(i%3)*2;const hill=new THREE.Mesh(new THREE.ConeGeometry(w,h,7),hillMats[i%hillMats.length]);hill.position.set(side*(13+(i%3)*2),h/2-0.2,z);hill.rotation.y=(i%3)*.35;scene.add(hill);}
+// Pokok bulat tambahan di tepi jalan untuk pemandangan lebih hidup.
+function roundTree(x,z){const g=new THREE.Group();const trunk=new THREE.Mesh(new THREE.CylinderGeometry(.12,.18,1.25,8),mat(0x80522d));trunk.position.y=.62;g.add(trunk);for(const [dx,dy,dz,r] of [[0,1.7,0,.72],[-.35,1.55,.05,.48],[.34,1.58,-.04,.5]]){const crown=new THREE.Mesh(new THREE.IcosahedronGeometry(r,1),mat(0x4b9856));crown.position.set(dx,dy,dz);g.add(crown)}g.position.set(x,0,z);scene.add(g);scenery.push(g)}for(let z=6;z>-105;z-=15){roundTree(-9.3,z-4);roundTree(9.3,z-10)}
 const obstacles=[],bonuses=[],questionBoxes=[];
 let score=0,distance=0,lives=3,speed=18,spawn=0,bonusTimer=0,questionTimer=5.5,running=false,paused=false,invuln=0,playerName='',playerForm='',playerClass='',last=0;
 let questionDeck=[],questionIndex=0;
-function makeObstacle(){let o;if(Math.random()<.65){o=new THREE.Group();let cone=new THREE.Mesh(new THREE.ConeGeometry(.48,1.12,8),mat(0xff8524));cone.position.y=.56;let band=new THREE.Mesh(new THREE.CylinderGeometry(.32,.32,.12,8),white);band.position.y=.4;o.add(cone,band)}else{o=new THREE.Mesh(new THREE.BoxGeometry(1.3,.85,.8),mat([0xe34d4d,0xf5a623,0x398bd8][Math.floor(Math.random()*3)]));o.position.y=.43}o.position.x=laneX[Math.floor(Math.random()*3)];o.position.z=-100;scene.add(o);obstacles.push(o)}
+function makeObstacle(){
+ // Halangan kini semuanya kereta: sedan, SUV dan kereta sport. Tiada kon.
+ const types=['cute','cute','sport'];const kind=types[Math.floor(Math.random()*types.length)];
+ const colors=[0xd93636,0x2686d8,0xeeeeee,0x202b3a,0x25a36f,0xf2a51a,0x8a55c7];
+ const color=colors[Math.floor(Math.random()*colors.length)];const o=makeCar(kind,color);
+ const isSUV=kind==='cute'&&Math.random()<.5;o.scale.set(isSUV?.82:.74,isSUV?.9:.78,isSUV?.78:.78);
+ o.position.set(laneX[Math.floor(Math.random()*3)],0,-100);o.userData.trafficType=isSUV?'SUV':kind==='sport'?'SPORT':'SEDAN';
+ scene.add(o);obstacles.push(o)
+}
 function makeBonus(){let b=new THREE.Mesh(new THREE.TorusGeometry(.42,.14,8,18),yellow);b.position.set(laneX[Math.floor(Math.random()*3)],1.15,-100);scene.add(b);bonuses.push(b)}
 function makeQuestionBox(){
- // Kotak khas bercahaya purple; bukan halangan yang menolak nyawa.
+ // Kotak kuiz 3D berwarna-warni, bercahaya dan berpusing pada paksi X/Y.
  const g=new THREE.Group();
- const purple=new THREE.MeshStandardMaterial({color:0x8d35d6,emissive:0x6516b0,emissiveIntensity:1.25,metalness:.25,roughness:.28});
- const edge=new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(1.25,1.25,1.05)),new THREE.LineBasicMaterial({color:0xe8c8ff}));
- const cube=new THREE.Mesh(new THREE.BoxGeometry(1.25,1.25,1.05),purple);g.add(cube,edge);
- const canvas=document.createElement('canvas');canvas.width=256;canvas.height=256;
- const ctx=canvas.getContext('2d');ctx.clearRect(0,0,256,256);ctx.fillStyle='#fff';ctx.font='bold 190px Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.shadowColor='#fff';ctx.shadowBlur=18;ctx.fillText('?',128,137);
- const tex=new THREE.CanvasTexture(canvas);const mark=new THREE.Mesh(new THREE.PlaneGeometry(.78,.78),new THREE.MeshBasicMaterial({map:tex,transparent:true,depthWrite:false}));
- mark.position.set(0,0,0.54);g.add(mark);
- const light=new THREE.PointLight(0xb65cff,2.2,5);light.position.y=.5;g.add(light);
- g.position.set(laneX[Math.floor(Math.random()*3)],1.05,-100);g.userData.spin=true;
- scene.add(g);questionBoxes.push(g);
+ const colors=[0xff3f81,0x22c7e8,0xffc928,0x8b55e8,0x35d48a,0xff8738];
+ const materials=colors.map(c=>new THREE.MeshStandardMaterial({color:c,emissive:c,emissiveIntensity:.42,metalness:.22,roughness:.25}));
+ const cube=new THREE.Mesh(new THREE.BoxGeometry(1.35,1.35,1.35),materials);g.add(cube);
+ const canvas=document.createElement('canvas');canvas.width=256;canvas.height=256;const ctx=canvas.getContext('2d');
+ ctx.clearRect(0,0,256,256);ctx.fillStyle='#ffffff';ctx.font='bold 190px Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.shadowColor='#ffffff';ctx.shadowBlur=22;ctx.fillText('?',128,137);
+ const tex=new THREE.CanvasTexture(canvas);const markMat=new THREE.MeshBasicMaterial({map:tex,transparent:true,depthWrite:false,side:THREE.DoubleSide});
+ for(const [x,y,z,ry,rx] of [[0,0,.686,0,0],[0,0,-.686,Math.PI,0],[.686,0,0,Math.PI/2,0],[-.686,0,0,-Math.PI/2,0],[0,.686,0,0,-Math.PI/2],[0,-.686,0,0,Math.PI/2]]){const mark=new THREE.Mesh(new THREE.PlaneGeometry(.82,.82),markMat);mark.position.set(x,y,z);mark.rotation.set(rx,ry,0);g.add(mark)}
+ const glow=new THREE.PointLight(0x72dfff,2.5,7);glow.position.y=.5;g.add(glow);
+ g.position.set(laneX[Math.floor(Math.random()*3)],1.25,-100);g.userData.spin=true;scene.add(g);questionBoxes.push(g)
 }
 function nextQuestion(){
  const bank=window.SOALAN_UBK;
@@ -276,13 +288,13 @@ addEventListener('keydown',e=>{
  if(['ArrowRight','d','D'].includes(e.key)){e.preventDefault();changeLane(1)}
 });
 document.querySelector('#startBtn').onclick=()=>{if(!Array.isArray(window.SOALAN_UBK)||!window.SOALAN_UBK.length){alert('Fail soalan-ubk.js belum dimuatkan. Sila pastikan fail ini berada dalam folder yang sama dengan index.html.');return;}startMusic();updateEngine(true);playerName=document.querySelector('#player').value.trim()||'Pemain SETASIK';playerForm=document.querySelector('#form').value||'Murid';playerClass=document.querySelector('#class').value.trim();reset()};document.querySelector('#again').onclick=reset;
-function hit(a,b){return Math.abs(a.position.x-b.position.x)<1.25&&Math.abs(a.position.z-b.position.z)<1.55}
+function hit(a,b){return Math.abs(a.position.x-b.position.x)<1.45&&Math.abs(a.position.z-b.position.z)<1.75}
 function frame(t){updateEngine(running&&!paused);let dt=Math.min((t-last)/1000||0,.04);last=t;if(running&&!paused){distance+=speed*dt;score+=Math.floor(dt*3);speed=Math.min(39,18+distance*.018);player.position.x=THREE.MathUtils.lerp(player.position.x,targetX,Math.min(1,dt*18));player.rotation.z=THREE.MathUtils.lerp(player.rotation.z,(targetX-player.position.x)*-.045,dt*7);spawn+=dt;if(spawn>Math.max(.48,1.3-distance/1300)){makeObstacle();spawn=0}bonusTimer+=dt;if(bonusTimer>2.6){makeBonus();bonusTimer=0}questionTimer-=dt;if(questionTimer<=0&&questionBoxes.length<1){makeQuestionBox();questionTimer=Math.max(8.5,13-distance/1800)+Math.random()*3.5}
 dashes.forEach(d=>{d.position.z+=speed*dt;if(d.position.z>12)d.position.z-=112});scenery.forEach(s=>{s.position.z+=speed*dt;if(s.position.z>14)s.position.z-=120});
 for(let i=obstacles.length-1;i>=0;i--){let o=obstacles[i];o.position.z+=speed*dt;if(o.position.z>10){scene.remove(o);obstacles.splice(i,1);score+=5}else if(invuln<=0&&hit(player,o)){scene.remove(o);obstacles.splice(i,1);crashSound();lives--;invuln=1.2;document.querySelector('#lives').textContent='♥ '.repeat(lives)+'♡ '.repeat(3-lives);if(lives<=0)finish()}}
 for(let i=bonuses.length-1;i>=0;i--){let b=bonuses[i];b.position.z+=speed*dt;b.rotation.y+=dt*2;if(b.position.z>10){scene.remove(b);bonuses.splice(i,1)}else if(hit(player,b)){score+=50;scene.remove(b);bonuses.splice(i,1)}}
 for(let i=questionBoxes.length-1;i>=0;i--){
- let qb=questionBoxes[i];qb.position.z+=speed*dt;qb.rotation.y+=dt*.9;
+ let qb=questionBoxes[i];qb.position.z+=speed*dt;qb.rotation.y+=dt*1.7;qb.rotation.x+=dt*.85;qb.rotation.z+=dt*.35;
  if(qb.position.z>10){scene.remove(qb);questionBoxes.splice(i,1);}
  else if(hit(player,qb)){scene.remove(qb);questionBoxes.splice(i,1);const q=nextQuestion();showQuiz(q);}
  }
