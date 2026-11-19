@@ -5,14 +5,14 @@
 <meta name="theme-color" content="#281044"><title>UBK SETASIK Racing Challenge 3D V1.4</title>
 <style>
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#180b2b;color:#fff;font-family:system-ui,Arial}#game{position:fixed;inset:0}canvas{display:block;width:100%;height:100%}
-.hud{position:fixed;inset:0;padding:12px;display:flex;flex-direction:column;justify-content:space-between;pointer-events:none}.top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.brand,.stat,.hint{background:#241044dc;border:1px solid #ffffff35;border-radius:13px;padding:8px 11px}.brand b{display:block;color:#ffd447;letter-spacing:.08em}.brand small{font-size:9px;letter-spacing:.12em}.stats{display:flex;gap:6px}.stat{text-align:center;min-width:60px}.stat span{display:block;color:#d9cdea;font-size:9px;text-transform:uppercase}.stat strong{font-size:17px;color:#ffd447}.bottom{display:flex;justify-content:space-between;align-items:end;gap:8px}.hint{font-size:11px;line-height:1.4}.controls{display:flex;gap:9px;pointer-events:auto}.ctrl{width:64px;height:58px;border:1px solid #ffffff75;border-radius:17px;background:#51277ddd;color:white;font-size:25px;font-weight:900;touch-action:manipulation}
+.hud{position:fixed;inset:0;padding:12px;display:flex;flex-direction:column;justify-content:space-between;pointer-events:none}.top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.brand,.stat,.hint{background:#241044dc;border:1px solid #ffffff35;border-radius:13px;padding:8px 11px}.brand b{display:block;color:#ffd447;letter-spacing:.08em}.brand small{font-size:9px;letter-spacing:.12em}.stats{display:flex;gap:6px}.stat{text-align:center;min-width:60px}.stat span{display:block;color:#d9cdea;font-size:9px;text-transform:uppercase}.stat strong{font-size:17px;color:#ffd447}.bottom{display:flex;justify-content:space-between;align-items:end;gap:8px}.hint{font-size:11px;line-height:1.4}.controls{display:flex;gap:9px;pointer-events:auto}.sound-toggle{pointer-events:auto;border:1px solid #ffffff70;border-radius:12px;background:#51277ddd;color:#fff;padding:8px 11px;font-weight:800;font-size:11px;cursor:pointer}.sound-toggle.on{background:#ffd447;color:#281442}.ctrl{width:64px;height:58px;border:1px solid #ffffff75;border-radius:17px;background:#51277ddd;color:white;font-size:25px;font-weight:900;touch-action:manipulation}
 .overlay{position:fixed;inset:0;z-index:5;display:grid;place-items:center;padding:16px;background:linear-gradient(135deg,#170a2dec,#32145dec)}.panel{width:min(550px,100%);max-height:95vh;overflow:auto;background:linear-gradient(145deg,#492576,#211039);border:1px solid #ffffff40;border-radius:23px;padding:25px;text-align:center}.logo{font-size:10px;letter-spacing:.16em;color:#ffd447;font-weight:900}.school-logo{display:block;width:88px;height:88px;object-fit:contain;background:#fff;border-radius:18px;padding:5px;margin:0 auto 10px;box-shadow:0 4px 14px #16082735}.panel h1{font-size:clamp(29px,6vw,44px);line-height:1.02;margin:10px 0}.panel h1 em{font-style:normal;color:#ffd447}.sub{color:#e4d8f2;font-size:14px}.pick-title{font-size:12px;font-weight:900;color:#ffd447;text-align:left;margin:13px 0 7px}.car-picks{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.pick{border:1px solid #ffffff55;background:#ffffff12;color:#fff;border-radius:13px;padding:9px 5px;cursor:pointer;font-weight:800;font-size:12px}.pick .car-icon{display:block;font-size:27px;margin-bottom:3px}.pick.selected{background:#ffd447;color:#281442;border:2px solid #fff1a8;box-shadow:0 0 0 2px #ffd44755}.color-picks{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding:5px 0 10px}.color-pick{width:30px;height:30px;border-radius:50%;border:3px solid #ffffff88;cursor:pointer;box-shadow:0 2px 5px #0005}.color-pick.selected{outline:3px solid #ffd447;outline-offset:3px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:9px;text-align:left;margin:18px 0}.fields label{font-size:12px;color:#e9ddf5}.fields input,.fields select{width:100%;margin-top:5px;padding:12px;border-radius:10px;border:1px solid #ffffff40;background:#1c0e30;color:white;font-size:15px}.btn{border:0;border-radius:13px;padding:14px 22px;background:#ffd447;color:#281442;font-size:16px;font-weight:900;cursor:pointer}.note{font-size:11px;color:#d2c2e3;line-height:1.5;margin-top:14px}.hidden{display:none!important}.question{font-size:19px;font-weight:800;margin:16px 0}.answers{display:grid;gap:8px}.answer{background:#ffffff13;border:1px solid #ffffff50;color:white;border-radius:11px;padding:12px;text-align:left;font-size:14px}.msg{color:#ffd447;min-height:24px;margin-top:10px}
 @media(max-width:560px){.hud{padding:8px}.brand{padding:7px 8px}.brand small{font-size:8px}.stat{min-width:48px;padding:6px 4px}.stat strong{font-size:14px}.ctrl{width:57px;height:53px}.hint{font-size:9px;max-width:54%}.fields{grid-template-columns:1fr}.panel{padding:17px}.school-logo{width:70px;height:70px}.car-picks{gap:5px}.pick{padding:7px 3px;font-size:11px}}
 </style></head>
 <body>
 <div id="game"></div>
-<div class="hud hidden" id="hud"><div class="top"><div class="brand"><b>UBK SETASIK</b><small>RACING CHALLENGE 3D</small></div><div class="stats"><div class="stat"><span>Skor</span><strong id="score">0</strong></div><div class="stat"><span>Jarak</span><strong id="dist">0m</strong></div><div class="stat"><span>Kelajuan</span><strong id="speed">1.0x</strong></div><div class="stat"><span>Nyawa</span><strong id="lives">♥ ♥ ♥</strong></div></div></div><div class="bottom"><div class="hint">Sentuh ◀ / ▶ untuk bergerak satu lorong setiap kali<br>Komputer: ← → / A D</div><div class="controls"><button class="ctrl" id="left">◀</button><button class="ctrl" id="right">▶</button></div></div></div>
-<div class="overlay" id="start"><div class="panel"><img class="school-logo" src="logo-sekolah.jpg" alt="Logo rasmi SMK Taman Tasik"><div class="logo">UNIT BIMBINGAN DAN KAUNSELING • SMK TAMAN TASIK</div><h1>RACING<br><em>CHALLENGE 3D</em></h1><p class="sub">V1.4.2 • DUA BUTANG KAWALAN • TIGA LORONG</p><p class="sub">Pandu dengan bijak, elak halangan dan kumpul mata!</p>
+<div class="hud hidden" id="hud"><div class="top"><div class="brand"><b>UBK SETASIK</b><small>RACING CHALLENGE 3D</small></div><div class="stats"><div class="stat"><span>Skor</span><strong id="score">0</strong></div><div class="stat"><span>Jarak</span><strong id="dist">0m</strong></div><div class="stat"><span>Kelajuan</span><strong id="speed">1.0x</strong></div><div class="stat"><span>Nyawa</span><strong id="lives">♥ ♥ ♥</strong></div></div></div><div class="bottom"><div class="hint">Sentuh ◀ / ▶ untuk bergerak satu lorong setiap kali<br>Komputer: ← → / A D</div><div class="controls"><button class="sound-toggle on" id="soundToggle" type="button">♫ MUZIK ON</button><button class="ctrl" id="left">◀</button><button class="ctrl" id="right">▶</button></div></div></div>
+<div class="overlay" id="start"><div class="panel"><img class="school-logo" src="logo-sekolah.jpg" alt="Logo rasmi SMK Taman Tasik"><div class="logo">UNIT BIMBINGAN DAN KAUNSELING • SMK TAMAN TASIK</div><h1>RACING<br><em>CHALLENGE 3D</em></h1><p class="sub">V1.5 • MODERN ELECTRONIC RACING • TIGA LORONG</p><p class="sub">Pandu dengan bijak, elak halangan dan kumpul mata!</p>
 <div class="pick-title">1. PILIH KERETA KEGEMARAN</div>
 <div class="car-picks"><button class="pick selected" data-car="cute"><span class="car-icon">🚙</span>COMEL</button><button class="pick" data-car="sport"><span class="car-icon">🏎️</span>SPORT</button><button class="pick" data-car="formula"><span class="car-icon">🏁</span>FORMULA</button></div>
 <div class="pick-title">2. PILIH WARNA KERETA</div>
@@ -68,7 +68,7 @@ function makeObstacle(){let o;if(Math.random()<.65){o=new THREE.Group();let cone
 function makeBonus(){let b=new THREE.Mesh(new THREE.TorusGeometry(.42,.14,8,18),yellow);b.position.set(laneX[Math.floor(Math.random()*3)],1.15,-100);scene.add(b);bonuses.push(b)}
 function showQuiz(){paused=true;let q=qs[quizN++%qs.length];document.querySelector('#question').textContent=q.q;let box=document.querySelector('#answers');box.innerHTML='';document.querySelector('#msg').textContent='Pilih jawapan yang paling sesuai.';q.a.forEach((a,i)=>{let b=document.createElement('button');b.className='answer';b.textContent=String.fromCharCode(65+i)+'. '+a;b.onclick=()=>{if(i===q.c)score+=150;document.querySelector('#msg').textContent=(i===q.c?'Betul! +150 mata. ':'Terima kasih mencuba. ')+q.why;document.querySelector('#score').textContent=score;setTimeout(()=>{document.querySelector('#quiz').classList.add('hidden');paused=false;quizAt=distance+300},1600)};box.appendChild(b)});document.querySelector('#quiz').classList.remove('hidden')}
 function reset(){obstacles.forEach(o=>scene.remove(o));bonuses.forEach(o=>scene.remove(o));obstacles.length=0;bonuses.length=0;scene.remove(player);player=makeCar(chosenCar,chosenColor);player.position.set(0,0,4);scene.add(player);score=distance=spawn=bonusTimer=0;lives=3;speed=18;lane=1;targetX=0;player.position.x=0;player.visible=true;invuln=0;quizAt=300;quizN=0;running=true;paused=false;last=performance.now();document.querySelector('#score').textContent='0';document.querySelector('#dist').textContent='0m';document.querySelector('#speed').textContent='1.0x';document.querySelector('#lives').textContent='♥ ♥ ♥';document.querySelector('#start').classList.add('hidden');document.querySelector('#end').classList.add('hidden');document.querySelector('#hud').classList.remove('hidden')}
-function finish(){running=false;document.querySelector('#hud').classList.add('hidden');document.querySelector('#result').textContent=`${playerName} • ${playerForm}${playerClass?' • '+playerClass:''} | Skor ${score} mata | Jarak ${Math.floor(distance)} meter`;document.querySelector('#end').classList.remove('hidden')}
+function finish(){finishSound();updateEngine(false);running=false;document.querySelector('#hud').classList.add('hidden');document.querySelector('#result').textContent=`${playerName} • ${playerForm}${playerClass?' • '+playerClass:''} | Skor ${score} mata | Jarak ${Math.floor(distance)} meter`;document.querySelector('#end').classList.remove('hidden')}
 function goToLane(nextLane){
  if(!running||paused)return;
  lane=Math.max(0,Math.min(2,nextLane));
@@ -79,6 +79,82 @@ function changeLane(dir){
  goToLane(lane+dir);
 }
 // Satu sentuhan terus memilih lorong paling kiri atau paling kanan.
+
+// V1.5: original synthesized modern electronic racing soundtrack and sound effects.
+let audioCtx=null, masterGain=null, musicGain=null, engineGain=null, musicTimer=null;
+let soundEnabled=true, musicStep=0, engineOsc=null, engineOsc2=null;
+function ensureAudio(){
+ if(audioCtx)return;
+ const AC=window.AudioContext||window.webkitAudioContext;
+ if(!AC)return;
+ audioCtx=new AC();
+ masterGain=audioCtx.createGain();masterGain.gain.value=.72;masterGain.connect(audioCtx.destination);
+ musicGain=audioCtx.createGain();musicGain.gain.value=.24;musicGain.connect(masterGain);
+ engineGain=audioCtx.createGain();engineGain.gain.value=0;engineGain.connect(masterGain);
+ engineOsc=audioCtx.createOscillator();engineOsc.type='sawtooth';
+ const eg1=audioCtx.createGain();eg1.gain.value=.075;engineOsc.connect(eg1);eg1.connect(engineGain);engineOsc.start();
+ engineOsc2=audioCtx.createOscillator();engineOsc2.type='triangle';
+ const eg2=audioCtx.createGain();eg2.gain.value=.04;engineOsc2.connect(eg2);eg2.connect(engineGain);engineOsc2.start();
+}
+function audioNote(freq,start,duration,type,volume,destination){
+ if(!audioCtx||!destination)return;
+ const osc=audioCtx.createOscillator(),gain=audioCtx.createGain(),filter=audioCtx.createBiquadFilter();
+ osc.type=type;osc.frequency.setValueAtTime(freq,start);filter.type='lowpass';filter.frequency.setValueAtTime(1500,start);
+ gain.gain.setValueAtTime(.0001,start);gain.gain.exponentialRampToValueAtTime(volume,start+.02);gain.gain.exponentialRampToValueAtTime(.0001,start+duration);
+ osc.connect(filter);filter.connect(gain);gain.connect(destination);osc.start(start);osc.stop(start+duration+.04);
+}
+const bassNotes=[55,55,65.41,55,73.42,65.41,55,82.41];
+const synthNotes=[440,523.25,659.25,523.25,392,493.88,587.33,493.88];
+function musicTick(){
+ if(!audioCtx||!soundEnabled)return;
+ const t=audioCtx.currentTime+.02,i=musicStep%8;
+ audioNote(bassNotes[i],t,.30,'triangle',.15,musicGain);
+ audioNote(synthNotes[i],t+.015,.17,'square',.045,musicGain);
+ if(i===0||i===4)audioNote(110,t,.24,'sine',.10,musicGain);
+ const buffer=audioCtx.createBuffer(1,Math.floor(audioCtx.sampleRate*.04),audioCtx.sampleRate);
+ const data=buffer.getChannelData(0);for(let j=0;j<data.length;j++)data[j]=(Math.random()*2-1)*(1-j/data.length);
+ const src=audioCtx.createBufferSource(),gain=audioCtx.createGain(),hp=audioCtx.createBiquadFilter();
+ src.buffer=buffer;hp.type='highpass';hp.frequency.value=6500;gain.gain.value=.025;
+ src.connect(hp);hp.connect(gain);gain.connect(musicGain);src.start(t);
+ musicStep++;
+}
+function startMusic(){
+ ensureAudio();if(!audioCtx)return;
+ if(audioCtx.state==='suspended')audioCtx.resume();
+ if(musicTimer)clearInterval(musicTimer);
+ if(soundEnabled){musicTick();musicTimer=setInterval(musicTick,190);}
+}
+function updateEngine(active){
+ if(!audioCtx||!engineGain)return;
+ const t=audioCtx.currentTime,vol=(soundEnabled&&active)?.055:0;
+ engineGain.gain.setTargetAtTime(vol,t,.13);
+ if(engineOsc)engineOsc.frequency.setTargetAtTime(65+(typeof speed!=='undefined'?speed*1.25:20),t,.15);
+ if(engineOsc2)engineOsc2.frequency.setTargetAtTime(38+(typeof speed!=='undefined'?speed*.65:12),t,.15);
+}
+function crashSound(){
+ if(!soundEnabled)return;ensureAudio();if(!audioCtx)return;
+ const t=audioCtx.currentTime;
+ audioNote(115,t,.32,'sawtooth',.20,masterGain);
+ const buffer=audioCtx.createBuffer(1,Math.floor(audioCtx.sampleRate*.20),audioCtx.sampleRate);
+ const d=buffer.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*(1-i/d.length);
+ const src=audioCtx.createBufferSource(),gain=audioCtx.createGain(),filter=audioCtx.createBiquadFilter();
+ src.buffer=buffer;filter.type='lowpass';filter.frequency.value=1000;gain.gain.value=.18;
+ src.connect(filter);filter.connect(gain);gain.connect(masterGain);src.start(t);
+}
+function finishSound(){
+ if(!soundEnabled)return;ensureAudio();if(!audioCtx)return;
+ const t=audioCtx.currentTime;
+ [523.25,659.25,783.99,1046.5].forEach((f,i)=>audioNote(f,t+i*.14,.42,'triangle',.12,masterGain));
+}
+const soundToggle=document.querySelector('#soundToggle');
+soundToggle.addEventListener('click',()=>{
+ soundEnabled=!soundEnabled;
+ soundToggle.textContent=soundEnabled?'♫ MUZIK ON':'♫ MUZIK OFF';
+ soundToggle.classList.toggle('on',soundEnabled);
+ if(soundEnabled){startMusic();updateEngine(typeof running!=='undefined'&&running);}
+ else{if(musicTimer)clearInterval(musicTimer);musicTimer=null;if(audioCtx&&engineGain)engineGain.gain.setTargetAtTime(0,audioCtx.currentTime,.08);}
+});
+
 const leftButton=document.querySelector('#left');
 const rightButton=document.querySelector('#right');
 
@@ -93,11 +169,11 @@ addEventListener('keydown',e=>{
  if(['ArrowRight','d','D'].includes(e.key)){e.preventDefault();changeLane(1)}
 
 });
-document.querySelector('#startBtn').onclick=()=>{playerName=document.querySelector('#player').value.trim()||'Pemain SETASIK';playerForm=document.querySelector('#form').value||'Murid';playerClass=document.querySelector('#class').value.trim();reset()};document.querySelector('#again').onclick=reset;
+document.querySelector('#startBtn').onclick=()=>{startMusic();updateEngine(true);playerName=document.querySelector('#player').value.trim()||'Pemain SETASIK';playerForm=document.querySelector('#form').value||'Murid';playerClass=document.querySelector('#class').value.trim();reset()};document.querySelector('#again').onclick=reset;
 function hit(a,b){return Math.abs(a.position.x-b.position.x)<1.25&&Math.abs(a.position.z-b.position.z)<1.55}
-function frame(t){let dt=Math.min((t-last)/1000||0,.04);last=t;if(running&&!paused){distance+=speed*dt;score+=Math.floor(dt*3);speed=Math.min(39,18+distance*.018);player.position.x=THREE.MathUtils.lerp(player.position.x,targetX,Math.min(1,dt*18));player.rotation.z=THREE.MathUtils.lerp(player.rotation.z,(targetX-player.position.x)*-.045,dt*7);spawn+=dt;if(spawn>Math.max(.48,1.3-distance/1300)){makeObstacle();spawn=0}bonusTimer+=dt;if(bonusTimer>2.6){makeBonus();bonusTimer=0}
+function frame(t){updateEngine(running&&!paused);let dt=Math.min((t-last)/1000||0,.04);last=t;if(running&&!paused){distance+=speed*dt;score+=Math.floor(dt*3);speed=Math.min(39,18+distance*.018);player.position.x=THREE.MathUtils.lerp(player.position.x,targetX,Math.min(1,dt*18));player.rotation.z=THREE.MathUtils.lerp(player.rotation.z,(targetX-player.position.x)*-.045,dt*7);spawn+=dt;if(spawn>Math.max(.48,1.3-distance/1300)){makeObstacle();spawn=0}bonusTimer+=dt;if(bonusTimer>2.6){makeBonus();bonusTimer=0}
 dashes.forEach(d=>{d.position.z+=speed*dt;if(d.position.z>12)d.position.z-=112});scenery.forEach(s=>{s.position.z+=speed*dt;if(s.position.z>14)s.position.z-=120});
-for(let i=obstacles.length-1;i>=0;i--){let o=obstacles[i];o.position.z+=speed*dt;if(o.position.z>10){scene.remove(o);obstacles.splice(i,1);score+=5}else if(invuln<=0&&hit(player,o)){scene.remove(o);obstacles.splice(i,1);lives--;invuln=1.2;document.querySelector('#lives').textContent='♥ '.repeat(lives)+'♡ '.repeat(3-lives);if(lives<=0)finish()}}
+for(let i=obstacles.length-1;i>=0;i--){let o=obstacles[i];o.position.z+=speed*dt;if(o.position.z>10){scene.remove(o);obstacles.splice(i,1);score+=5}else if(invuln<=0&&hit(player,o)){scene.remove(o);obstacles.splice(i,1);crashSound();lives--;invuln=1.2;document.querySelector('#lives').textContent='♥ '.repeat(lives)+'♡ '.repeat(3-lives);if(lives<=0)finish()}}
 for(let i=bonuses.length-1;i>=0;i--){let b=bonuses[i];b.position.z+=speed*dt;b.rotation.y+=dt*2;if(b.position.z>10){scene.remove(b);bonuses.splice(i,1)}else if(hit(player,b)){score+=50;scene.remove(b);bonuses.splice(i,1)}}
 if(invuln>0){invuln-=dt;player.visible=Math.floor(invuln*12)%2===0}else player.visible=true;if(distance>=quizAt&&running)showQuiz();document.querySelector('#score').textContent=score;document.querySelector('#dist').textContent=Math.floor(distance)+'m';document.querySelector('#speed').textContent=(speed/18).toFixed(1)+'x'}
 camera.position.x=THREE.MathUtils.lerp(camera.position.x,player.position.x*.2,dt*2);camera.lookAt(player.position.x*.12,.3,-8);renderer.render(scene,camera);requestAnimationFrame(frame)}
