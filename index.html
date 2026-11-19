@@ -12,7 +12,7 @@
 <body>
 <div id="game"></div>
 <div class="hud hidden" id="hud"><div class="top"><div class="brand"><b>UBK SETASIK</b><small>RACING CHALLENGE 3D</small></div><div class="stats"><div class="stat"><span>Skor</span><strong id="score">0</strong></div><div class="stat"><span>Jarak</span><strong id="dist">0m</strong></div><div class="stat"><span>Kelajuan</span><strong id="speed">1.0x</strong></div><div class="stat"><span>Nyawa</span><strong id="lives">♥ ♥ ♥</strong></div></div></div><div class="bottom"><div class="hint">Sentuh ◀ / ▶ untuk lorong tepi; ● untuk tengah<br>Komputer: ← → / A D, Space = tengah</div><div class="controls"><button class="ctrl" id="left">◀</button><button class="ctrl" id="center" style="font-size:18px">●</button><button class="ctrl" id="right">▶</button></div></div></div>
-<div class="overlay" id="start"><div class="panel"><img class="school-logo" src="logo-sekolah.jpg" alt="Logo rasmi SMK Taman Tasik"><div class="logo">UNIT BIMBINGAN DAN KAUNSELING • SMK TAMAN TASIK</div><h1>RACING<br><em>CHALLENGE 3D</em></h1><p class="sub">V1.4 • PILIH KERETA & WARNA • TIGA LORONG</p><p class="sub">Pandu dengan bijak, elak halangan dan kumpul mata!</p>
+<div class="overlay" id="start"><div class="panel"><img class="school-logo" src="logo-sekolah.jpg" alt="Logo rasmi SMK Taman Tasik"><div class="logo">UNIT BIMBINGAN DAN KAUNSELING • SMK TAMAN TASIK</div><h1>RACING<br><em>CHALLENGE 3D</em></h1><p class="sub">V1.4.1 • KAWALAN LORONG BERTAHAP • TIGA LORONG</p><p class="sub">Pandu dengan bijak, elak halangan dan kumpul mata!</p>
 <div class="pick-title">1. PILIH KERETA KEGEMARAN</div>
 <div class="car-picks"><button class="pick selected" data-car="cute"><span class="car-icon">🚙</span>COMEL</button><button class="pick" data-car="sport"><span class="car-icon">🏎️</span>SPORT</button><button class="pick" data-car="formula"><span class="car-icon">🏁</span>FORMULA</button></div>
 <div class="pick-title">2. PILIH WARNA KERETA</div>
@@ -74,7 +74,10 @@ function goToLane(nextLane){
  lane=Math.max(0,Math.min(2,nextLane));
  targetX=laneX[lane];
 }
-function changeLane(dir){goToLane(dir<0?0:2)}
+function changeLane(dir){
+ // Setiap tekanan bergerak satu lorong sahaja: kiri <-> tengah <-> kanan.
+ goToLane(lane+dir);
+}
 // Satu sentuhan terus memilih lorong paling kiri atau paling kanan.
 const leftButton=document.querySelector('#left');
 const rightButton=document.querySelector('#right');
