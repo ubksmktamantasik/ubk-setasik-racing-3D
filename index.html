@@ -1,55 +1,156 @@
 <!doctype html>
 <html lang="ms">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#281044"><title>UBK SETASIK Racing Challenge 3D V1.1</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#241044">
+<title>UBK SETASIK | Racing Challenge 3D</title>
 <style>
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#180b2b;color:#fff;font-family:system-ui,Arial}#game{position:fixed;inset:0}canvas{display:block;width:100%;height:100%}
-.hud{position:fixed;inset:0;padding:12px;display:flex;flex-direction:column;justify-content:space-between;pointer-events:none}.top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.brand,.stat,.hint{background:#241044dc;border:1px solid #ffffff35;border-radius:13px;padding:8px 11px}.brand b{display:block;color:#ffd447;letter-spacing:.08em}.brand small{font-size:9px;letter-spacing:.12em}.stats{display:flex;gap:6px}.stat{text-align:center;min-width:60px}.stat span{display:block;color:#d9cdea;font-size:9px;text-transform:uppercase}.stat strong{font-size:17px;color:#ffd447}.bottom{display:flex;justify-content:space-between;align-items:end;gap:8px}.hint{font-size:11px;line-height:1.4}.controls{display:flex;gap:9px;pointer-events:auto}.ctrl{width:64px;height:58px;border:1px solid #ffffff75;border-radius:17px;background:#51277ddd;color:white;font-size:25px;font-weight:900;touch-action:manipulation}
-.overlay{position:fixed;inset:0;z-index:5;display:grid;place-items:center;padding:16px;background:linear-gradient(135deg,#170a2dec,#32145dec)}.panel{width:min(550px,100%);max-height:95vh;overflow:auto;background:linear-gradient(145deg,#492576,#211039);border:1px solid #ffffff40;border-radius:23px;padding:25px;text-align:center}.logo{font-size:10px;letter-spacing:.16em;color:#ffd447;font-weight:900}.panel h1{font-size:clamp(29px,6vw,44px);line-height:1.02;margin:10px 0}.panel h1 em{font-style:normal;color:#ffd447}.sub{color:#e4d8f2;font-size:14px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:9px;text-align:left;margin:18px 0}.fields label{font-size:12px;color:#e9ddf5}.fields input,.fields select{width:100%;margin-top:5px;padding:12px;border-radius:10px;border:1px solid #ffffff40;background:#1c0e30;color:white;font-size:15px}.btn{border:0;border-radius:13px;padding:14px 22px;background:#ffd447;color:#281442;font-size:16px;font-weight:900;cursor:pointer}.note{font-size:11px;color:#d2c2e3;line-height:1.5;margin-top:14px}.hidden{display:none!important}.question{font-size:19px;font-weight:800;margin:16px 0}.answers{display:grid;gap:8px}.answer{background:#ffffff13;border:1px solid #ffffff50;color:white;border-radius:11px;padding:12px;text-align:left;font-size:14px}.msg{color:#ffd447;min-height:24px;margin-top:10px}
-@media(max-width:560px){.hud{padding:8px}.brand{padding:7px 8px}.brand small{font-size:8px}.stat{min-width:48px;padding:6px 4px}.stat strong{font-size:14px}.ctrl{width:57px;height:53px}.hint{font-size:9px;max-width:54%}.fields{grid-template-columns:1fr}}
-</style></head>
+:root{--purple:#32145d;--purple2:#6b35a5;--yellow:#ffd447;--ink:#fff;--muted:#d9cdea}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#140a26;color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial}
+#game{position:fixed;inset:0}canvas{display:block;width:100%;height:100%}
+.hud{position:fixed;inset:0;pointer-events:none;padding:14px;display:flex;flex-direction:column;justify-content:space-between}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.brand{background:#241044d9;border:1px solid #ffffff30;border-radius:16px;padding:10px 14px;backdrop-filter:blur(8px);box-shadow:0 8px 30px #0004}
+.brand b{display:block;color:var(--yellow);letter-spacing:.08em;font-size:clamp(13px,2vw,18px)}.brand small{color:#eee;font-size:10px;letter-spacing:.12em}
+.stats{display:flex;gap:8px}.stat{min-width:76px;text-align:center;background:#241044d9;border:1px solid #ffffff30;border-radius:14px;padding:8px 12px}.stat span{display:block;color:var(--muted);font-size:10px;text-transform:uppercase}.stat strong{font-size:20px;color:var(--yellow);font-variant-numeric:tabular-nums}
+.bottom{display:flex;justify-content:space-between;align-items:end;gap:12px}
+.hint{background:#241044c9;border:1px solid #ffffff2a;border-radius:12px;padding:9px 12px;font-size:12px;color:#eee}
+.controls{display:flex;gap:10px;pointer-events:auto}.ctrl{width:64px;height:58px;border:1px solid #ffffff65;border-radius:18px;background:#32145dcc;color:white;font-size:25px;font-weight:800;box-shadow:0 5px 0 #17082e;touch-action:none}.ctrl:active{transform:translateY(3px);box-shadow:0 2px 0 #17082e;background:#7043a5}
+.overlay{position:fixed;inset:0;display:grid;place-items:center;padding:18px;background:linear-gradient(135deg,#170a2de8,#30145be8);z-index:5}
+.panel{width:min(560px,100%);max-height:94vh;overflow:auto;background:linear-gradient(145deg,#40206b,#211039);border:1px solid #ffffff35;border-radius:24px;padding:clamp(20px,4vw,34px);box-shadow:0 25px 80px #0008;text-align:center}
+.logo{font-size:12px;letter-spacing:.2em;color:var(--yellow);font-weight:800}.panel h1{font-size:clamp(28px,6vw,44px);line-height:1.02;margin:9px 0;color:white}.panel h1 em{font-style:normal;color:var(--yellow)}.sub{color:#e4d8f2;margin:0 0 22px}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:left;margin:18px 0}.fields label{font-size:12px;color:#e9ddf5}.fields input,.fields select{display:block;width:100%;margin-top:5px;padding:12px;border-radius:10px;border:1px solid #ffffff40;background:#1c0e30;color:white;font-size:15px;outline:none}.fields input::placeholder{color:#aa9ab9}
+.btn{border:0;border-radius:14px;padding:14px 22px;background:var(--yellow);color:#281442;font-size:16px;font-weight:900;cursor:pointer;box-shadow:0 5px 0 #b78b13}.btn:active{transform:translateY(3px);box-shadow:0 2px 0 #b78b13}.note{font-size:11px;color:#cdbddd;margin-top:17px;line-height:1.5}
+#quiz{z-index:8;background:#10091cbb}.question{font-size:20px;font-weight:800;margin:15px 0}.answers{display:grid;gap:9px}.answer{background:#ffffff12;border:1px solid #ffffff45;color:white;border-radius:12px;padding:13px;text-align:left;font-size:15px;cursor:pointer}.answer:hover{background:#ffffff25}
+#message{font-size:14px;color:var(--yellow);min-height:22px;margin:10px}
+.hidden{display:none!important}
+@media(max-width:600px){.hud{padding:9px}.brand{padding:8px 10px}.brand small{font-size:8px}.stats{gap:5px}.stat{min-width:58px;padding:6px}.stat strong{font-size:17px}.hint{max-width:52%;font-size:10px}.ctrl{width:58px;height:54px}.fields{grid-template-columns:1fr}}
+</style>
+</head>
 <body>
 <div id="game"></div>
-<div class="hud hidden" id="hud"><div class="top"><div class="brand"><b>UBK SETASIK</b><small>RACING CHALLENGE 3D</small></div><div class="stats"><div class="stat"><span>Skor</span><strong id="score">0</strong></div><div class="stat"><span>Jarak</span><strong id="dist">0m</strong></div><div class="stat"><span>Kelajuan</span><strong id="speed">1.0x</strong></div><div class="stat"><span>Nyawa</span><strong id="lives">♥ ♥ ♥</strong></div></div></div><div class="bottom"><div class="hint">Tekan sekali untuk tukar lorong<br>Komputer: ← → / A D</div><div class="controls"><button class="ctrl" id="left">◀</button><button class="ctrl" id="right">▶</button></div></div></div>
-<div class="overlay" id="start"><div class="panel"><div class="logo">UNIT BIMBINGAN DAN KAUNSELING • SMK TAMAN TASIK</div><h1>RACING<br><em>CHALLENGE 3D</em></h1><p class="sub">V1.1 • TIGA LORONG • KELAJUAN MENINGKAT</p><p class="sub">Pandu dengan bijak, elak halangan dan kumpul mata!</p><div class="fields"><label>Nama pemain<input id="player" maxlength="24" placeholder="Nama pemain"></label><label>Tingkatan<select id="form"><option value="">Pilih tingkatan</option><option>Tingkatan 1</option><option>Tingkatan 2</option><option>Tingkatan 3</option><option>Tingkatan 4</option><option>Tingkatan 5</option><option>Guru</option></select></label><label style="grid-column:1/-1">Kelas (pilihan)<input id="class" maxlength="24" placeholder="Contoh: ALPHA"></label></div><button class="btn" id="startBtn">MULA PERLUMBAAN</button><div class="note">Tiga nyawa. Kelajuan bertambah secara beransur-ansur sehingga perlumbaan tamat.</div></div></div>
-<div class="overlay hidden" id="quiz"><div class="panel"><div class="logo">CHECKPOINT UBK • CABARAN MINDA</div><h2>Fikir sebelum bertindak!</h2><div class="question" id="question"></div><div class="answers" id="answers"></div><div class="msg" id="msg"></div></div></div>
-<div class="overlay hidden" id="end"><div class="panel"><div class="logo">UBK SETASIK • KEPUTUSAN</div><h1>PERLUMBAAN TAMAT!</h1><p class="sub" id="result"></p><button class="btn" id="again">MAIN LAGI</button><div class="note">Terima kasih menyertai UBK SETASIK Racing Challenge 3D.</div></div></div>
+<div class="hud" id="hud">
+  <div class="top">
+    <div class="brand"><b>UBK SETASIK</b><small>RACING CHALLENGE 3D</small></div>
+    <div class="stats">
+      <div class="stat"><span>Skor</span><strong id="score">0</strong></div>
+      <div class="stat"><span>Jarak</span><strong id="distance">0m</strong></div>
+      <div class="stat"><span>Nyawa</span><strong id="lives">♥ ♥ ♥</strong></div>
+    </div>
+  </div>
+  <div class="bottom">
+    <div class="hint">← → / A D untuk belok<br>Telefon: guna butang kawalan</div>
+    <div class="controls"><button class="ctrl" id="left" aria-label="Belok kiri">◀</button><button class="ctrl" id="right" aria-label="Belok kanan">▶</button></div>
+  </div>
+</div>
+
+<div class="overlay" id="start">
+ <div class="panel">
+  <div class="logo">UNIT BIMBINGAN DAN KAUNSELING • SMK TAMAN TASIK</div>
+  <h1>RACING<br><em>CHALLENGE 3D</em></h1>
+  <p class="sub">Pandu dengan bijak. Elak halangan. Kumpul mata. Buktikan kehebatan anda!</p>
+  <div class="fields">
+   <label>Nama pemain<input id="player" maxlength="24" placeholder="Contoh: Cikgu Azwa" autocomplete="nickname"></label>
+   <label>Tingkatan<select id="form"><option value="">Pilih tingkatan</option><option>Tingkatan 1</option><option>Tingkatan 2</option><option>Tingkatan 3</option><option>Tingkatan 4</option><option>Tingkatan 5</option><option>Guru</option></select></label>
+   <label style="grid-column:1/-1">Kelas (pilihan)<input id="class" maxlength="24" placeholder="Contoh: ALPHA"></label>
+  </div>
+  <button class="btn" id="startBtn">MULA PERLUMBAAN</button>
+  <div class="note">Permainan santai UBK SETASIK. Pandu secara selamat dan jawab cabaran nilai murni di checkpoint.</div>
+ </div>
+</div>
+
+<div class="overlay hidden" id="quiz">
+ <div class="panel">
+  <div class="logo">CHECKPOINT UBK • CABARAN MINDA</div>
+  <h2>Berhenti seketika, fikir dengan bijak!</h2>
+  <div class="question" id="question"></div>
+  <div class="answers" id="answers"></div>
+  <div id="message"></div>
+ </div>
+</div>
+
+<div class="overlay hidden" id="end">
+ <div class="panel">
+  <div class="logo">UBK SETASIK • KEPUTUSAN PERLUMBAAN</div>
+  <h1 id="endTitle">SYABAS!</h1>
+  <p class="sub" id="result"></p>
+  <button class="btn" id="again">MAIN LAGI</button>
+  <div class="note">Terima kasih kerana menyertai UBK SETASIK Racing Challenge 3D.</div>
+ </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script>
 (()=>{
-const root=document.querySelector('#game');if(!window.THREE){root.innerHTML='<p style="color:white;padding:20px">Enjin 3D gagal dimuatkan. Semak internet dan muat semula.</p>';return}
-const scene=new THREE.Scene();scene.background=new THREE.Color(0x9bd8ef);scene.fog=new THREE.Fog(0x9bd8ef,35,115);
-const camera=new THREE.PerspectiveCamera(62,innerWidth/innerHeight,.1,180);camera.position.set(0,5.3,10.5);
-const renderer=new THREE.WebGLRenderer({antialias:true});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setSize(innerWidth,innerHeight);root.appendChild(renderer.domElement);
-scene.add(new THREE.HemisphereLight(0xffffff,0x63734c,2));const sun=new THREE.DirectionalLight(0xffffff,2);sun.position.set(-5,12,8);scene.add(sun);
-const mat=c=>new THREE.MeshStandardMaterial({color:c,roughness:.75});const grass=mat(0x62a75d),roadMat=mat(0x343640),white=mat(0xffffff),yellow=mat(0xffd447);
-let ground=new THREE.Mesh(new THREE.PlaneGeometry(200,200),grass);ground.rotation.x=-Math.PI/2;ground.position.set(0,-.14,-45);scene.add(ground);
-let road=new THREE.Mesh(new THREE.PlaneGeometry(11,160),roadMat);road.rotation.x=-Math.PI/2;road.position.set(0,0,-48);scene.add(road);
-const dashes=[];for(let x of [-1.83,1.83])for(let z=8;z>-110;z-=8){let d=new THREE.Mesh(new THREE.BoxGeometry(.10,.025,3.5),white);d.position.set(x,.025,z);scene.add(d);dashes.push(d)}
-for(let x of [-5.5,5.5]){let e=new THREE.Mesh(new THREE.BoxGeometry(.16,.12,160),yellow);e.position.set(x,.06,-48);scene.add(e)}
-const laneX=[-3.65,0,3.65];let lane=1,targetX=0;
-function makeCar(){let g=new THREE.Group(),body=new THREE.Mesh(new THREE.BoxGeometry(1.35,.48,2.4),mat(0x843fc0));body.position.y=.62;g.add(body);let cab=new THREE.Mesh(new THREE.BoxGeometry(.94,.48,1.12),mat(0x243047));cab.position.set(0,1.02,-.12);g.add(cab);let glass=new THREE.Mesh(new THREE.BoxGeometry(.8,.25,.7),new THREE.MeshStandardMaterial({color:0x88d9ef}));glass.position.set(0,1.1,-.1);g.add(glass);let bumper=new THREE.Mesh(new THREE.BoxGeometry(1.2,.15,.18),yellow);bumper.position.set(0,.42,1.22);g.add(bumper);for(let x of [-.72,.72])for(let z of [-.75,.75]){let w=new THREE.Mesh(new THREE.CylinderGeometry(.26,.26,.16,12),mat(0x151515));w.rotation.z=Math.PI/2;w.position.set(x,.35,z);g.add(w)}return g}
-const player=makeCar();player.position.set(0,0,4);scene.add(player);
-const scenery=[];function tree(x,z){let g=new THREE.Group(),tr=new THREE.Mesh(new THREE.CylinderGeometry(.13,.17,1.1,7),mat(0x80522d)),top=new THREE.Mesh(new THREE.ConeGeometry(.82,2.1,8),mat(0x267b50));tr.position.y=.55;top.position.y=2;g.add(tr,top);g.position.set(x,0,z);scene.add(g);scenery.push(g)}for(let z=10;z>-110;z-=10){tree(-7.5,z);tree(7.5,z-4)}
-const obstacles=[],bonuses=[];let score=0,distance=0,lives=3,speed=18,spawn=0,bonusTimer=0,quizAt=300,quizN=0,running=false,paused=false,invuln=0,playerName='',playerForm='',playerClass='',last=0;
-const qs=[{q:'Rakan diejek berulang kali. Apakah tindakan terbaik?',a:['Sertai ejekan','Maklumkan kepada guru dan sokong rakan','Sebarkan video'],c:1,why:'Sokong rakan dan dapatkan bantuan orang dewasa.'},{q:'Apabila tertekan dengan pelajaran, apakah langkah sihat?',a:['Pendam semuanya','Marah orang lain','Berkongsi dengan orang dipercayai dan susun langkah kecil'],c:2,why:'Berkongsi dan merancang membantu mengurus tekanan.'},{q:'Apakah amalan media sosial yang bertanggungjawab?',a:['Semak maklumat sebelum berkongsi','Sebarkan khabar angin','Kongsi kata laluan'],c:0,why:'Semak maklumat dan lindungi privasi.'},{q:'Jika melakukan kesilapan, apakah tindakan matang?',a:['Salahkan orang','Akui dan baiki keadaan','Berpura-pura'],c:1,why:'Bertanggungjawab membantu kita belajar.'}];
-function makeObstacle(){let o;if(Math.random()<.65){o=new THREE.Group();let cone=new THREE.Mesh(new THREE.ConeGeometry(.48,1.12,8),mat(0xff8524));cone.position.y=.56;let band=new THREE.Mesh(new THREE.CylinderGeometry(.32,.32,.12,8),white);band.position.y=.4;o.add(cone,band)}else{o=new THREE.Mesh(new THREE.BoxGeometry(1.3,.85,.8),mat([0xe34d4d,0xf5a623,0x398bd8][Math.floor(Math.random()*3)]));o.position.y=.43}o.position.x=laneX[Math.floor(Math.random()*3)];o.position.z=-100;scene.add(o);obstacles.push(o)}
-function makeBonus(){let b=new THREE.Mesh(new THREE.TorusGeometry(.42,.14,8,18),yellow);b.position.set(laneX[Math.floor(Math.random()*3)],1.15,-100);scene.add(b);bonuses.push(b)}
-function showQuiz(){paused=true;let q=qs[quizN++%qs.length];document.querySelector('#question').textContent=q.q;let box=document.querySelector('#answers');box.innerHTML='';document.querySelector('#msg').textContent='Pilih jawapan yang paling sesuai.';q.a.forEach((a,i)=>{let b=document.createElement('button');b.className='answer';b.textContent=String.fromCharCode(65+i)+'. '+a;b.onclick=()=>{if(i===q.c)score+=150;document.querySelector('#msg').textContent=(i===q.c?'Betul! +150 mata. ':'Terima kasih mencuba. ')+q.why;document.querySelector('#score').textContent=score;setTimeout(()=>{document.querySelector('#quiz').classList.add('hidden');paused=false;quizAt=distance+300},1600)};box.appendChild(b)});document.querySelector('#quiz').classList.remove('hidden')}
-function reset(){obstacles.forEach(o=>scene.remove(o));bonuses.forEach(o=>scene.remove(o));obstacles.length=0;bonuses.length=0;score=distance=spawn=bonusTimer=0;lives=3;speed=18;lane=1;targetX=0;player.position.x=0;player.visible=true;invuln=0;quizAt=300;quizN=0;running=true;paused=false;last=performance.now();document.querySelector('#score').textContent='0';document.querySelector('#dist').textContent='0m';document.querySelector('#speed').textContent='1.0x';document.querySelector('#lives').textContent='♥ ♥ ♥';document.querySelector('#start').classList.add('hidden');document.querySelector('#end').classList.add('hidden');document.querySelector('#hud').classList.remove('hidden')}
-function finish(){running=false;document.querySelector('#hud').classList.add('hidden');document.querySelector('#result').textContent=`${playerName} • ${playerForm}${playerClass?' • '+playerClass:''} | Skor ${score} mata | Jarak ${Math.floor(distance)} meter`;document.querySelector('#end').classList.remove('hidden')}
-function changeLane(dir){if(!running||paused)return;lane=Math.max(0,Math.min(2,lane+dir));targetX=laneX[lane]}
-document.querySelector('#left').onclick=()=>changeLane(-1);document.querySelector('#right').onclick=()=>changeLane(1);
-addEventListener('keydown',e=>{if(e.repeat)return;if(['ArrowLeft','a','A'].includes(e.key))changeLane(-1);if(['ArrowRight','d','D'].includes(e.key))changeLane(1)});
-document.querySelector('#startBtn').onclick=()=>{playerName=document.querySelector('#player').value.trim()||'Pemain SETASIK';playerForm=document.querySelector('#form').value||'Murid';playerClass=document.querySelector('#class').value.trim();reset()};document.querySelector('#again').onclick=reset;
-function hit(a,b){return Math.abs(a.position.x-b.position.x)<1.25&&Math.abs(a.position.z-b.position.z)<1.55}
-function frame(t){let dt=Math.min((t-last)/1000||0,.04);last=t;if(running&&!paused){distance+=speed*dt;score+=Math.floor(dt*3);speed=Math.min(39,18+distance*.018);player.position.x=THREE.MathUtils.lerp(player.position.x,targetX,Math.min(1,dt*9));player.rotation.z=THREE.MathUtils.lerp(player.rotation.z,(targetX-player.position.x)*-.045,dt*7);spawn+=dt;if(spawn>Math.max(.48,1.3-distance/1300)){makeObstacle();spawn=0}bonusTimer+=dt;if(bonusTimer>2.6){makeBonus();bonusTimer=0}
-dashes.forEach(d=>{d.position.z+=speed*dt;if(d.position.z>12)d.position.z-=112});scenery.forEach(s=>{s.position.z+=speed*dt;if(s.position.z>14)s.position.z-=120});
-for(let i=obstacles.length-1;i>=0;i--){let o=obstacles[i];o.position.z+=speed*dt;if(o.position.z>10){scene.remove(o);obstacles.splice(i,1);score+=5}else if(invuln<=0&&hit(player,o)){scene.remove(o);obstacles.splice(i,1);lives--;invuln=1.2;document.querySelector('#lives').textContent='♥ '.repeat(lives)+'♡ '.repeat(3-lives);if(lives<=0)finish()}}
-for(let i=bonuses.length-1;i>=0;i--){let b=bonuses[i];b.position.z+=speed*dt;b.rotation.y+=dt*2;if(b.position.z>10){scene.remove(b);bonuses.splice(i,1)}else if(hit(player,b)){score+=50;scene.remove(b);bonuses.splice(i,1)}}
-if(invuln>0){invuln-=dt;player.visible=Math.floor(invuln*12)%2===0}else player.visible=true;if(distance>=quizAt&&running)showQuiz();document.querySelector('#score').textContent=score;document.querySelector('#dist').textContent=Math.floor(distance)+'m';document.querySelector('#speed').textContent=(speed/18).toFixed(1)+'x'}
-camera.position.x=THREE.MathUtils.lerp(camera.position.x,player.position.x*.2,dt*2);camera.lookAt(player.position.x*.12,.3,-8);renderer.render(scene,camera);requestAnimationFrame(frame)}
-last=performance.now();requestAnimationFrame(frame);addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
+const root=document.getElementById('game');
+if(!window.THREE){root.innerHTML='<div style="padding:30px;color:white">Three.js tidak dapat dimuatkan. Sila semak sambungan internet dan muat semula.</div>';return;}
+const scene=new THREE.Scene();scene.background=new THREE.Color(0x9bd8ef);scene.fog=new THREE.Fog(0x9bd8ef,32,105);
+const camera=new THREE.PerspectiveCamera(62,innerWidth/innerHeight,.1,180);camera.position.set(0,5.4,10.5);camera.lookAt(0,0,-8);
+const renderer=new THREE.WebGLRenderer({antialias:true});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;root.appendChild(renderer.domElement);
+scene.add(new THREE.HemisphereLight(0xffffff,0x65734d,2.1));
+const sun=new THREE.DirectionalLight(0xffffff,2.2);sun.position.set(-5,12,7);sun.castShadow=true;scene.add(sun);
+const mat=(color,roughness=.8)=>new THREE.MeshStandardMaterial({color,roughness});
+const roadMat=mat(0x343642), grassMat=mat(0x63a85d), lineMat=mat(0xffffff), yellowMat=mat(0xffd447), purpleMat=mat(0x5c2a91);
+const plane=new THREE.Mesh(new THREE.PlaneGeometry(200,200),grassMat);plane.rotation.x=-Math.PI/2;plane.position.y=-.13;plane.position.z=-45;plane.receiveShadow=true;scene.add(plane);
+const road=new THREE.Mesh(new THREE.PlaneGeometry(10,150),roadMat);road.rotation.x=-Math.PI/2;road.position.set(0,0,-48);road.receiveShadow=true;scene.add(road);
+const edges=[];
+[-5.05,5.05].forEach(x=>{let e=new THREE.Mesh(new THREE.BoxGeometry(.18,.18,150),yellowMat);e.position.set(x,.08,-48);scene.add(e);});
+const dashes=[];for(let z=8;z>-100;z-=8){let d=new THREE.Mesh(new THREE.BoxGeometry(.13,.025,3.5),lineMat);d.position.set(0,.025,z);scene.add(d);dashes.push(d);}
+const scenery=[];
+function tree(x,z){let g=new THREE.Group();let trunk=new THREE.Mesh(new THREE.CylinderGeometry(.13,.18,1.2,7),mat(0x80522d));trunk.position.y=.6;g.add(trunk);let crown=new THREE.Mesh(new THREE.ConeGeometry(.85,2.2,8),mat(0x267b50));crown.position.y=2.1;g.add(crown);g.position.set(x,0,z);scene.add(g);scenery.push(g);}
+for(let z=8;z>-105;z-=9){tree(-7.2,z);tree(7.2,z-4);}
+function makeCar(color=0x7c3db5){
+ const g=new THREE.Group(),body=new THREE.Mesh(new THREE.BoxGeometry(1.35,.48,2.45),mat(color,.35));body.position.y=.62;body.castShadow=true;g.add(body);
+ const cabin=new THREE.Mesh(new THREE.BoxGeometry(.95,.48,1.15),mat(0x202b42,.25));cabin.position.set(0,1.04,-.12);cabin.castShadow=true;g.add(cabin);
+ const glass=new THREE.Mesh(new THREE.BoxGeometry(.82,.28,.72),new THREE.MeshStandardMaterial({color:0x83d8f2,metalness:.2,roughness:.2}));glass.position.set(0,1.12,-.13);g.add(glass);
+ const bumper=new THREE.Mesh(new THREE.BoxGeometry(1.25,.18,.2),mat(0xffd447));bumper.position.set(0,.42,1.22);g.add(bumper);
+ for(const x of [-.72,.72])for(const z of [-.78,.78]){let w=new THREE.Mesh(new THREE.CylinderGeometry(.27,.27,.17,12),mat(0x171717));w.rotation.z=Math.PI/2;w.position.set(x,.35,z);g.add(w);}
+ for(const x of [-.43,.43]){let l=new THREE.Mesh(new THREE.BoxGeometry(.22,.12,.05),mat(0xfff3b0));l.position.set(x,.67,1.24);g.add(l);}
+ return g;
+}
+const playerCar=makeCar(0x853fc0);playerCar.position.set(0,0,4);scene.add(playerCar);
+const obstacles=[],bonuses=[];let running=false,paused=false,score=0,distance=0,lives=3,speed=23,spawn=0,bonusSpawn=0,quizAt=260,quizCount=0,playerName='',playerForm='',playerClass='',last=0,invuln=0;
+const obstacleColors=[0xe34d4d,0xf5a623,0x3a8bd8];
+function makeObstacle(){let type=Math.random();let obj;if(type<.65){obj=new THREE.Group();let cone=new THREE.Mesh(new THREE.ConeGeometry(.48,1.15,8),mat(0xff8a22));cone.position.y=.58;obj.add(cone);let band=new THREE.Mesh(new THREE.CylinderGeometry(.32,.32,.13,8),mat(0xffffff));band.position.y=.43;obj.add(band);}else{obj=new THREE.Mesh(new THREE.BoxGeometry(1.35,.9,.8),mat(obstacleColors[Math.floor(Math.random()*3)]));obj.position.y=.45;}obj.position.set([-3.1,0,3.1][Math.floor(Math.random()*3)],0,-95);scene.add(obj);obstacles.push(obj);}
+function makeBonus(){let b=new THREE.Mesh(new THREE.TorusGeometry(.48,.16,8,18),yellowMat);b.position.set([-3,0,3][Math.floor(Math.random()*3)],1.15,-95);scene.add(b);bonuses.push(b);}
+const questions=[
+ {q:'Rakan sekelas diejek berulang kali. Apakah tindakan paling sesuai?',a:['Sertai ejekan supaya diterima','Maklumkan kepada guru dan sokong rakan','Rakam dan sebarkan video'],c:1,why:'Mendapatkan bantuan dan menyokong rakan membantu menghentikan buli.'},
+ {q:'Apabila berasa tertekan dengan pelajaran, apakah langkah yang sihat?',a:['Pendam semuanya','Marah orang sekeliling','Berkongsi dengan orang dipercayai dan susun langkah kecil'],c:2,why:'Berkongsi dan merancang langkah kecil ialah cara mengurus tekanan.'},
+ {q:'Apakah contoh penggunaan media sosial yang bertanggungjawab?',a:['Semak maklumat sebelum berkongsi','Sebarkan khabar angin','Kongsi kata laluan dengan rakan'],c:0,why:'Semak kesahihan maklumat dan lindungi privasi diri.'},
+ {q:'Jika melakukan kesilapan, apakah pilihan yang menunjukkan sikap matang?',a:['Salahkan orang lain','Akui, minta maaf dan baiki keadaan','Berpura-pura tiada apa berlaku'],c:1,why:'Bertanggungjawab membantu kita belajar dan memperbaiki diri.'},
+ {q:'Apakah tindakan yang baik apabila rakan kelihatan murung?',a:['Perli supaya dia ceria','Abaikan sahaja','Dengar tanpa menghukum dan galakkan dapatkan bantuan'],c:2,why:'Sikap prihatin dan mendengar boleh membantu rakan mendapatkan sokongan.'}
+];
+let currentQ=null,quizOpen=false;
+function showQuiz(){paused=true;quizOpen=true;currentQ=questions[quizCount%questions.length];quizCount++;document.getElementById('question').textContent=currentQ.q;let box=document.getElementById('answers');box.innerHTML='';currentQ.a.forEach((a,i)=>{let b=document.createElement('button');b.className='answer';b.textContent=String.fromCharCode(65+i)+'. '+a;b.onclick=()=>{let msg=document.getElementById('message');if(i===currentQ.c){score+=150;msg.textContent='Betul! +150 mata. '+currentQ.why;}else{msg.textContent='Terima kasih mencuba. '+currentQ.why;}document.getElementById('score').textContent=score;setTimeout(()=>{document.getElementById('quiz').classList.add('hidden');quizOpen=false;paused=false;quizAt=distance+260;},1900);};box.appendChild(b);});document.getElementById('message').textContent='Pilih jawapan yang paling sesuai.';document.getElementById('quiz').classList.remove('hidden');}
+function reset(){obstacles.forEach(o=>scene.remove(o));bonuses.forEach(o=>scene.remove(o));obstacles.length=0;bonuses.length=0;score=0;distance=0;lives=3;speed=23;spawn=0;bonusSpawn=0;quizAt=260;quizCount=0;invuln=0;playerCar.position.x=0;playerCar.rotation.z=0;running=true;paused=false;last=performance.now();document.getElementById('score').textContent='0';document.getElementById('distance').textContent='0m';document.getElementById('lives').textContent='♥ ♥ ♥';document.getElementById('start').classList.add('hidden');document.getElementById('end').classList.add('hidden');document.getElementById('hud').classList.remove('hidden');}
+function endGame(){running=false;document.getElementById('hud').classList.add('hidden');document.getElementById('endTitle').textContent=lives>0?'SYABAS, '+playerName.toUpperCase()+'!':'PERLUMBAAN TAMAT';document.getElementById('result').textContent=`${playerForm}${playerClass?' • '+playerClass:''} | Skor: ${score} mata | Jarak: ${Math.floor(distance)} meter`;document.getElementById('end').classList.remove('hidden');}
+const keys={left:false,right:false};function bindButton(id,key){let el=document.getElementById(id);['pointerdown'].forEach(ev=>el.addEventListener(ev,e=>{e.preventDefault();keys[key]=true;}));['pointerup','pointerleave','pointercancel'].forEach(ev=>el.addEventListener(ev,()=>keys[key]=false));}
+bindButton('left','left');bindButton('right','right');
+addEventListener('keydown',e=>{if(['ArrowLeft','a','A'].includes(e.key))keys.left=true;if(['ArrowRight','d','D'].includes(e.key))keys.right=true;});
+addEventListener('keyup',e=>{if(['ArrowLeft','a','A'].includes(e.key))keys.left=false;if(['ArrowRight','d','D'].includes(e.key))keys.right=false;});
+document.getElementById('startBtn').onclick=()=>{playerName=document.getElementById('player').value.trim()||'Pemain SETASIK';playerForm=document.getElementById('form').value||'Murid';playerClass=document.getElementById('class').value.trim();reset();};
+document.getElementById('again').onclick=()=>reset();
+function hit(a,b){return Math.abs(a.position.x-b.position.x)<1.25 && Math.abs(a.position.z-b.position.z)<1.5;}
+function update(dt){
+ if(running&&!paused){
+ distance+=speed*dt;score+=Math.floor(dt*4);speed=Math.min(34,23+distance*.012);
+ if(keys.left)playerCar.position.x-=6.5*dt;if(keys.right)playerCar.position.x+=6.5*dt;playerCar.position.x=THREE.MathUtils.clamp(playerCar.position.x,-3.65,3.65);playerCar.rotation.z=THREE.MathUtils.lerp(playerCar.rotation.z,keys.left?.12:keys.right?-.12:0,dt*8);
+ spawn+=dt;if(spawn>Math.max(.72,1.35-distance/1200)){makeObstacle();spawn=0;}bonusSpawn+=dt;if(bonusSpawn>2.4){makeBonus();bonusSpawn=0;}
+ dashes.forEach(d=>{d.position.z+=speed*dt;if(d.position.z>12)d.position.z-=108;});
+ scenery.forEach(t=>{t.position.z+=speed*dt;if(t.position.z>13)t.position.z-=117;});
+ obstacles.forEach((o,i)=>{o.position.z+=speed*dt;if(o.position.z>9){scene.remove(o);obstacles.splice(i,1);score+=5;}else if(invuln<=0&&hit(playerCar,o)){scene.remove(o);obstacles.splice(i,1);lives--;invuln=1.2;document.getElementById('lives').textContent='♥ '.repeat(lives)+'♡ '.repeat(3-lives);if(lives<=0)endGame();}});
+ bonuses.forEach((b,i)=>{b.position.z+=speed*dt;b.rotation.y+=dt*2.5;if(b.position.z>9){scene.remove(b);bonuses.splice(i,1);}else if(hit(playerCar,b)){score+=50;scene.remove(b);bonuses.splice(i,1);}});
+ if(invuln>0){invuln-=dt;playerCar.visible=Math.floor(invuln*12)%2===0;}else playerCar.visible=true;
+ if(distance>=quizAt&&!quizOpen&&running)showQuiz();
+ document.getElementById('score').textContent=score;document.getElementById('distance').textContent=Math.floor(distance)+'m';
+ }
+ camera.position.x=THREE.MathUtils.lerp(camera.position.x,playerCar.position.x*.22,dt*2);camera.lookAt(playerCar.position.x*.12,.3,-8);
+ renderer.render(scene,camera);
+}
+function loop(t){let dt=Math.min((t-last)/1000||0,.04);last=t;update(dt);requestAnimationFrame(loop);}last=performance.now();loop();
+addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
 })();
-</script></body></html>
+</script>
+</body>
+</html>
