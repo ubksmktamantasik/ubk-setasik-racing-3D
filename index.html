@@ -11,8 +11,8 @@
 </style></head>
 <body>
 <div id="game"></div>
-<div class="hud hidden" id="hud"><div class="top"><div class="brand"><b>UBK SETASIK</b><small>RACING CHALLENGE 3D • V1.8</small></div><div class="stats"><div class="stat"><span>Skor</span><strong id="score">0</strong></div><div class="stat"><span>Jarak</span><strong id="dist">0m</strong></div><div class="stat"><span>Kelajuan</span><strong id="speed">1.0x</strong></div><div class="stat"><span>Nyawa</span><strong id="lives">♥ ♥ ♥</strong></div></div></div><div class="bottom"><div class="hint">Sentuh ◀ / ▶ untuk bergerak satu lorong<br>Langgar kotak ? untuk kuiz (+100 jika betul) • Bonus emas +50</div><div class="controls"><button class="sound-toggle on" id="soundToggle" type="button">♫ MUZIK ON</button><button class="ctrl" id="left">◀</button><button class="ctrl" id="right">▶</button></div></div></div>
-<div class="overlay" id="start"><div class="panel"><img class="school-logo" src="logo-sekolah.jpg" alt="Logo rasmi SMK Taman Tasik"><div class="logo">UNIT BIMBINGAN DAN KAUNSELING • SMK TAMAN TASIK</div><h1>RACING<br><em>CHALLENGE 3D</em></h1><p class="sub">V1.8 • 3D CAR MAKEOVER + QUESTION BOX • TIGA LORONG</p><p class="sub">Elak halangan dan langgar kotak soalan purple untuk cabaran minda!</p>
+<div class="hud hidden" id="hud"><div class="top"><div class="brand"><b>UBK SETASIK</b><small>RACING CHALLENGE 3D • V1.9</small></div><div class="stats"><div class="stat"><span>Skor</span><strong id="score">0</strong></div><div class="stat"><span>Jarak</span><strong id="dist">0m</strong></div><div class="stat"><span>Kelajuan</span><strong id="speed">1.0x</strong></div><div class="stat"><span>Nyawa</span><strong id="lives">♥ ♥ ♥</strong></div></div></div><div class="bottom"><div class="hint">Sentuh ◀ / ▶ untuk bergerak satu lorong<br>Langgar kotak ? untuk kuiz (+100 jika betul) • Bonus emas +50</div><div class="controls"><button class="sound-toggle on" id="soundToggle" type="button">♫ MUZIK ON</button><button class="ctrl" id="left">◀</button><button class="ctrl" id="right">▶</button></div></div></div>
+<div class="overlay" id="start"><div class="panel"><img class="school-logo" src="logo-sekolah.jpg" alt="Logo rasmi SMK Taman Tasik"><div class="logo">UNIT BIMBINGAN DAN KAUNSELING • SMK TAMAN TASIK</div><h1>RACING<br><em>CHALLENGE 3D</em></h1><p class="sub">V1.9 • CARTOON 3D CAR + QUESTION BOX • TIGA LORONG</p><p class="sub">Elak halangan dan langgar kotak soalan purple untuk cabaran minda!</p>
 <div class="pick-title">1. PILIH KERETA KEGEMARAN</div>
 <div class="car-picks"><button class="pick selected" data-car="cute"><span class="car-icon">🚙</span>COMEL</button><button class="pick" data-car="sport"><span class="car-icon">🏎️</span>SPORT</button><button class="pick" data-car="formula"><span class="car-icon">🏁</span>FORMULA</button></div>
 <div class="pick-title">2. PILIH WARNA KERETA</div>
@@ -37,48 +37,77 @@ for(let x of [-5.5,5.5]){let e=new THREE.Mesh(new THREE.BoxGeometry(.16,.12,160)
 const laneX=[-3.65,0,3.65];let lane=1,targetX=0;
 let chosenCar='cute',chosenColor=0x843fc0;
 function makeCar(kind='cute',color=0x843fc0){
- // Model low-poly dengan badan melengkung, kabin, tayar, lampu dan bumper.
- const g=new THREE.Group(),paint=mat(color),dark=mat(0x18202d),rubber=mat(0x10131b),rim=mat(0xb8c4d2),glass=new THREE.MeshStandardMaterial({color:0x8bdcf2,metalness:.28,roughness:.16}),lamp=new THREE.MeshStandardMaterial({color:0xff334b,emissive:0x9c1025,emissiveIntensity:1.1}),headlamp=new THREE.MeshStandardMaterial({color:0xfff0bd,emissive:0xffd36b,emissiveIntensity:.8});
- const mesh=(geo,material,x,y,z,rx=0,ry=0,rz=0)=>{const m=new THREE.Mesh(geo,material);m.position.set(x,y,z);m.rotation.set(rx,ry,rz);g.add(m);return m};
- const ell=(x,y,z,sx,sy,sz,material)=>{const m=mesh(new THREE.SphereGeometry(1,16,10),material,x,y,z);m.scale.set(sx,sy,sz);return m};
- // Kereta menghadap ke hadapan trek (-Z); kamera melihat dari belakang.
+ // V1.9: model kartun 3D dengan siluet badan, kabin, fender, lampu dan aksesori berasingan.
+ const g=new THREE.Group();
+ const paint=new THREE.MeshPhysicalMaterial({color,roughness:.27,metalness:.22,clearcoat:.9,clearcoatRoughness:.18});
+ const paint2=new THREE.MeshPhysicalMaterial({color:new THREE.Color(color).multiplyScalar(.72),roughness:.3,metalness:.18,clearcoat:.7});
+ const dark=mat(0x17202c),rubber=mat(0x10131a),rim=new THREE.MeshStandardMaterial({color:0xdce7f4,metalness:.82,roughness:.22});
+ const glass=new THREE.MeshPhysicalMaterial({color:0x9be7ff,metalness:.18,roughness:.1,transparent:true,opacity:.88,clearcoat:1});
+ const red=new THREE.MeshStandardMaterial({color:0xff183d,emissive:0xa50025,emissiveIntensity:1.7});
+ const whiteLamp=new THREE.MeshStandardMaterial({color:0xfff2c5,emissive:0xffd36b,emissiveIntensity:1.3});
+ const black=mat(0x080d15),gold=mat(0xffd447);
+ const add=(geo,m,x,y,z,rx=0,ry=0,rz=0)=>{const o=new THREE.Mesh(geo,m);o.position.set(x,y,z);o.rotation.set(rx,ry,rz);g.add(o);return o};
+ const ball=(m,x,y,z,sx,sy,sz)=>{const o=add(new THREE.SphereGeometry(1,24,16),m,x,y,z);o.scale.set(sx,sy,sz);return o};
+ const box=(m,x,y,z,sx,sy,sz,r=.08)=>{const o=add(new THREE.BoxGeometry(sx,sy,sz),m,x,y,z);return o};
+ // Main body: rounded volumes create a sculpted toy-car silhouette.
  if(kind==='formula'){
-   mesh(new THREE.BoxGeometry(1.55,.22,1.75),paint,0,.48,.05);
-   const nose=mesh(new THREE.ConeGeometry(.43,1.55,6),paint,0,.48,-1.18,Math.PI/2);nose.scale.set(1,.75,1);
-   ell(0,.73,-.12,.39,.29,.48,dark);ell(0,.79,-.18,.29,.22,.35,glass);
-   mesh(new THREE.BoxGeometry(2.05,.13,.28),paint,0,.72,.98);
-   mesh(new THREE.BoxGeometry(1.65,.12,.24),dark,0,.85,1.22);
-   mesh(new THREE.BoxGeometry(.22,.34,.32),paint,-.77,.47,.02);mesh(new THREE.BoxGeometry(.22,.34,.32),paint,.77,.47,.02);
+   ball(paint,0,.48,.02,.77,.25,1.22); // central chassis
+   const nose=add(new THREE.ConeGeometry(.42,1.65,8),paint,0,.43,-1.22,Math.PI/2);nose.scale.set(1,.72,1);
+   ball(paint2,0,.47,-.42,.57,.19,.68);
+   // open cockpit and driver helmet
+   ball(black,0,.72,-.18,.39,.22,.48);ball(gold,0,.91,-.2,.22,.2,.22);
+   box(paint,0,.77,.9,1.9,.13,.23,.04);box(black,0,.87,1.03,1.35,.08,.18,.03);
+   box(paint,0,.43,-1.85,.72,.1,.22,.03);
+   for(const x of [-.92,.92]){box(paint2,x,.47,-.05,.22,.22,.55);}
  }else if(kind==='sport'){
-   ell(0,.53,.05,.78,.32,1.35,paint);
-   ell(0,.61,-.48,.67,.34,.72,paint);
-   ell(0,.88,-.42,.55,.35,.72,glass);
-   mesh(new THREE.BoxGeometry(1.03,.09,.08),dark,0,1.18,-.35);
-   mesh(new THREE.BoxGeometry(1.48,.12,.18),paint,0,.72,1.18);
-   mesh(new THREE.BoxGeometry(1.18,.10,.16),dark,0,.81,1.27);
+   ball(paint,0,.51,.05,.83,.36,1.42);
+   ball(paint2,0,.57,-.78,.72,.30,.60); // long sculpted bonnet
+   // low sloping cabin
+   const cabin=ball(paint,0,.84,-.37,.63,.43,.77);cabin.scale.set(.63,.39,.76);
+   ball(glass,0,.91,-.43,.57,.30,.63);
+   ball(glass,0,.84,.18,.54,.24,.30);
+   box(paint,0,.72,1.15,1.48,.16,.23,.09);box(black,0,.83,1.26,1.18,.08,.12,.04);
  }else{
-   ell(0,.55,.05,.77,.43,1.18,paint);
-   ell(0,.72,-.42,.66,.48,.72,paint);
-   ell(0,1.03,-.43,.57,.35,.62,glass);
-   mesh(new THREE.BoxGeometry(.92,.10,.72),paint,0,1.36,-.42);
-   mesh(new THREE.BoxGeometry(1.42,.15,.18),paint,0,.43,1.08);
+   // Cute compact hatchback: tall cabin and rounded front/rear.
+   ball(paint,0,.54,.02,.86,.43,1.20);
+   ball(paint2,0,.72,-.34,.72,.52,.78);
+   ball(glass,0,.91,-.36,.64,.36,.65);
+   ball(glass,0,.88,.34,.59,.29,.30);
+   box(paint,0,.48,1.02,1.45,.22,.24,.12);
+   // roof cap and friendly face details
+   ball(paint,0,1.19,-.35,.57,.12,.55);
  }
- // Tayar dengan rim perak; jelas kelihatan dari sudut belakang.
- for(const x of [-.77,.77])for(const z of [-.72,.78]){
-   const w=mesh(new THREE.CylinderGeometry(.27,.27,.19,16),rubber,x,.31,z,0,0,Math.PI/2);
-   mesh(new THREE.CylinderGeometry(.145,.145,.205,12),rim,x,.31,z,0,0,Math.PI/2);
-   mesh(new THREE.CylinderGeometry(.055,.055,.212,10),dark,x,.31,z,0,0,Math.PI/2);
+ // Wheels with layered rims, hubs and rounded fenders.
+ const wheelZ=kind==='formula'?[-.75,.88]:[-.78,.83];
+ for(const x of [-.78,.78])for(const z of wheelZ){
+   ball(paint2,x,.37,z,.24,.34,.39);
+   add(new THREE.CylinderGeometry(.29,.29,.22,24),rubber,x,.36,z,0,0,Math.PI/2);
+   add(new THREE.CylinderGeometry(.19,.19,.235,20),rim,x,.36,z,0,0,Math.PI/2);
+   add(new THREE.CylinderGeometry(.075,.075,.245,16),gold,x,.36,z,0,0,Math.PI/2);
+   for(let k=0;k<5;k++){const a=k*Math.PI*2/5;ball(whiteLamp,x+Math.sin(a)*.12,.36+Math.cos(a)*.12,z,.025,.025,.025)}
  }
- // Lampu belakang, lampu hadapan, cermin sisi dan ekzos.
- for(const x of [-.48,.48]){
-   mesh(new THREE.BoxGeometry(.25,.13,.055),lamp,x,.67,1.18);
-   mesh(new THREE.BoxGeometry(.22,.10,.055),headlamp,x,.62,-1.12);
-   mesh(new THREE.BoxGeometry(.12,.10,.30),dark,x*1.55,.83,-.35);
+ // Rear light bar, separate lamps, bumper and exhausts (visible from chase camera).
+ box(black,0,.43,1.22,1.42,.17,.16,.07);box(paint2,0,.52,1.28,1.5,.12,.16,.06);
+ for(const x of [-.53,.53]){box(red,x,.70,1.18,.34,.15,.07,.045);box(whiteLamp,x,.61,1.20,.18,.055,.045,.02);}
+ box(black,0,.66,1.225,.34,.055,.045,.02);
+ for(const x of [-.43,.43])add(new THREE.CylinderGeometry(.075,.075,.16,16),rim,x,.34,1.32,Math.PI/2);
+ // Mirrors, side skirts, door seams and windshield highlights.
+ for(const x of [-.91,.91]){ball(paint2,x,.78,-.28,.16,.10,.20);box(black,x,.78,-.27,.09,.045,.12,.02);}
+ box(paint2,0,.34,.08,1.55,.09,1.35);
+ if(kind==='formula'){
+   // Wide rear wing and front wing define the formula silhouette.
+   box(black,0,.98,1.0,.10,.36,.10);box(paint,0,1.16,1.0,2.05,.13,.28,.05);
+   box(paint,0,.34,-1.9,1.72,.10,.28,.04);
+ }else if(kind==='sport'){
+   box(black,0,1.13,.82,.09,.25,.10);box(paint,0,1.27,.84,1.72,.12,.20,.05);
+   // bonnet stripe
+   box(gold,0,.79,-.73,.10,.025,.72,.01);
+ }else{
+   // Roof rails and friendly rear window trim.
+   for(const x of [-.39,.39])box(paint2,x,1.28,-.34,.055,.06,.65,.02);
+   box(black,0,.89,.67,.88,.045,.045,.02);
  }
- mesh(new THREE.BoxGeometry(.62,.09,.06),dark,0,.45,1.22);
- for(const x of [-.34,.34])mesh(new THREE.CylinderGeometry(.07,.07,.16,10),dark,x,.32,1.25,Math.PI/2);
- // Jalur/stripe pada badan untuk identiti kereta lumba.
- if(kind!=='cute')mesh(new THREE.BoxGeometry(.12,.025,1.65),yellow,0,.79,.08);
+ g.scale.setScalar(1.0);
  return g;
 }
 let player=makeCar(chosenCar,chosenColor);player.position.set(0,0,4);scene.add(player);
