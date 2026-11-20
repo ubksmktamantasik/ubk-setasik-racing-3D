@@ -187,6 +187,7 @@ function reset(){
  document.querySelector('#score').textContent='0';document.querySelector('#dist').textContent='0m';document.querySelector('#speed').textContent='1.0x';document.querySelector('#lives').textContent='♥ ♥ ♥';
  document.querySelector('#start').classList.add('hidden');document.querySelector('#end').classList.add('hidden');document.querySelector('#quiz').classList.add('hidden');document.querySelector('#hud').classList.remove('hidden');
 }
+let scoreSavePromise = Promise.resolve();
 async function saveScore(){
  const status=document.querySelector('#saveStatus');status.textContent='Menyimpan keputusan ke ranking online...';
  try{
@@ -209,7 +210,7 @@ async function loadRanking(){
  }catch(err){console.error('Supabase ranking error:',err);box.textContent='Ranking belum dapat dimuatkan. Sila semak tetapan Data API dan polisi SELECT Supabase.';}
 }
 function showRanking(){document.querySelector('#ranking').classList.remove('hidden');loadRanking()}
-function finish(){finishSound();updateEngine(false);running=false;document.querySelector('#hud').classList.add('hidden');document.querySelector('#result').textContent=`${playerName} • ${playerForm}${playerClass?' • '+playerClass:''} | Skor ${score} mata | Jarak ${Math.floor(distance)} meter`;document.querySelector('#end').classList.remove('hidden');saveScore()}
+function finish(){finishSound();updateEngine(false);running=false;document.querySelector('#hud').classList.add('hidden');document.querySelector('#result').textContent=`${playerName} • ${playerForm}${playerClass?' • '+playerClass:''} | Skor ${score} mata | Jarak ${Math.floor(distance)} meter`;document.querySelector('#end').classList.remove('hidden');scoreSavePromise=saveScore()}
 function goToLane(nextLane){
  if(!running||paused)return;
  lane=Math.max(0,Math.min(2,nextLane));
@@ -312,7 +313,7 @@ addEventListener('keydown',e=>{
  if(['ArrowLeft','a','A'].includes(e.key)){e.preventDefault();changeLane(-1)}
  if(['ArrowRight','d','D'].includes(e.key)){e.preventDefault();changeLane(1)}
 });
-document.querySelector('#startBtn').onclick=()=>{if(!Array.isArray(window.SOALAN_UBK)||!window.SOALAN_UBK.length){alert('Fail soalan-ubk.js belum dimuatkan. Sila pastikan fail ini berada dalam folder yang sama dengan index.html.');return;}startMusic();updateEngine(true);playerName=document.querySelector('#player').value.trim()||'Pemain SETASIK';playerForm=document.querySelector('#form').value||'Murid';playerClass=document.querySelector('#class').value.trim();reset()};document.querySelector('#again').onclick=reset;document.querySelector('#openRanking').onclick=showRanking;document.querySelector('#endRanking').onclick=showRanking;document.querySelector('#refreshRanking').onclick=loadRanking;document.querySelector('#closeRanking').onclick=()=>document.querySelector('#ranking').classList.add('hidden');
+document.querySelector('#startBtn').onclick=()=>{if(!Array.isArray(window.SOALAN_UBK)||!window.SOALAN_UBK.length){alert('Fail soalan-ubk.js belum dimuatkan. Sila pastikan fail ini berada dalam folder yang sama dengan index.html.');return;}startMusic();updateEngine(true);playerName=document.querySelector('#player').value.trim()||'Pemain SETASIK';playerForm=document.querySelector('#form').value||'Murid';playerClass=document.querySelector('#class').value.trim();reset()};document.querySelector('#again').onclick=reset;document.querySelector('#openRanking').onclick=showRanking;document.querySelector('#endRanking').onclick=async()=>{const box=document.querySelector('#rankingContent');document.querySelector('#ranking').classList.remove('hidden');box.textContent='Menyimpan keputusan dan mengemas kini ranking...';await scoreSavePromise;await loadRanking()};document.querySelector('#refreshRanking').onclick=loadRanking;document.querySelector('#closeRanking').onclick=()=>document.querySelector('#ranking').classList.add('hidden');
 function hit(a,b){return Math.abs(a.position.x-b.position.x)<1.45&&Math.abs(a.position.z-b.position.z)<1.75}
 function frame(t){updateEngine(running&&!paused);let dt=Math.min((t-last)/1000||0,.04);last=t;if(running&&!paused){distance+=speed*dt;score+=Math.floor(dt*3);speed=Math.min(39,18+distance*.018);player.position.x=THREE.MathUtils.lerp(player.position.x,targetX,Math.min(1,dt*18));player.rotation.z=THREE.MathUtils.lerp(player.rotation.z,(targetX-player.position.x)*-.045,dt*7);spawn+=dt;if(spawn>Math.max(.48,1.3-distance/1300)){makeObstacle();spawn=0}bonusTimer+=dt;if(bonusTimer>2.6){makeBonus();bonusTimer=0}questionTimer-=dt;if(questionTimer<=0&&questionBoxes.length<1){makeQuestionBox();questionTimer=Math.max(8.5,13-distance/1800)+Math.random()*3.5}
 dashes.forEach(d=>{d.position.z+=speed*dt;if(d.position.z>12)d.position.z-=112});scenery.forEach(s=>{s.position.z+=speed*dt;if(s.position.z>14)s.position.z-=120});
