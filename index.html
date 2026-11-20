@@ -384,12 +384,22 @@ function musicTick(){
  if([0,2,8,10].includes(step))audioNote(synthNotes[(i+2)%8]*2,t+.035,.09,'triangle',.035,musicGain);
  musicStep++;
 }
-function startMusic(){
- ensureAudio();if(!audioCtx)return;
- if(audioCtx.state==='suspended')audioCtx.resume();
+async function startMusic(){
+ ensureAudio();if(!audioCtx)return false;
+ // Pelayar telefon menyekat audio sehingga ada interaksi pengguna.
+ try{if(audioCtx.state!=='running')await audioCtx.resume();}catch(err){console.warn('Audio belum dibenarkan oleh pelayar:',err);return false;}
+ if(audioCtx.state!=='running')return false;
  if(musicTimer)clearInterval(musicTimer);
- if(soundEnabled){musicTick();musicTimer=setInterval(musicTick,88);}
+ if(soundEnabled){musicStep=0;musicTick();musicTimer=setInterval(musicTick,88);}
+ return true;
 }
+// Jika pengguna kembali ke tab permainan, sambung semula audio selepas sentuhan.
+document.addEventListener('visibilitychange',()=>{
+ if(!document.hidden && soundEnabled && audioCtx && audioCtx.state==='suspended'){
+   // Resume akan berjaya apabila pelayar membenarkan interaksi seterusnya.
+   audioCtx.resume().then(()=>{if(soundEnabled && !musicTimer){musicTick();musicTimer=setInterval(musicTick,88);}}).catch(()=>{});
+ }
+});
 function updateEngine(active){
  if(!audioCtx||!engineGain)return;
  const t=audioCtx.currentTime,vol=(soundEnabled&&active)?.055:0;
@@ -436,7 +446,7 @@ soundToggle.addEventListener('click',()=>{
  soundEnabled=!soundEnabled;
  soundToggle.textContent=soundEnabled?'♫ MUZIK ON':'♫ MUZIK OFF';
  soundToggle.classList.toggle('on',soundEnabled);
- if(soundEnabled){startMusic();updateEngine(typeof running!=='undefined'&&running);}
+ if(soundEnabled){startMusic().then(ok=>{soundToggle.textContent=ok?'♫ MUZIK ON':'♫ SENTUH UNTUK MUZIK';});updateEngine(typeof running!=='undefined'&&running);}
  else{if(musicTimer)clearInterval(musicTimer);musicTimer=null;if(audioCtx&&engineGain)engineGain.gain.setTargetAtTime(0,audioCtx.currentTime,.08);}
 });
 
@@ -456,7 +466,7 @@ addEventListener('keydown',e=>{
  if(['ArrowLeft','a','A'].includes(e.key)){e.preventDefault();changeLane(-1)}
  if(['ArrowRight','d','D'].includes(e.key)){e.preventDefault();changeLane(1)}
 });
-document.querySelector('#startBtn').onclick=()=>{if(!Array.isArray(window.SOALAN_UBK)||!window.SOALAN_UBK.length){alert('Fail soalan-ubk.js belum dimuatkan. Sila pastikan fail ini berada dalam folder yang sama dengan index.html.');return;}startMusic();updateEngine(true);playerName=document.querySelector('#player').value.trim()||'Pemain SETASIK';playerForm=document.querySelector('#form').value||'Murid';playerClass=document.querySelector('#class').value.trim();reset()};document.querySelector('#again').onclick=reset;document.querySelector('#openRanking').onclick=showRanking;let rankingOpenedFromEnd=false;
+document.querySelector('#startBtn').onclick=async()=>{if(!Array.isArray(window.SOALAN_UBK)||!window.SOALAN_UBK.length){alert('Fail soalan-ubk.js belum dimuatkan. Sila pastikan fail ini berada dalam folder yang sama dengan index.html.');return;}const musicStarted=await startMusic();soundToggle.textContent=musicStarted?'♫ MUZIK ON':'♫ SENTUH UNTUK MUZIK';updateEngine(true);playerName=document.querySelector('#player').value.trim()||'Pemain SETASIK';playerForm=document.querySelector('#form').value||'Murid';playerClass=document.querySelector('#class').value.trim();reset()};document.querySelector('#again').onclick=reset;document.querySelector('#openRanking').onclick=showRanking;let rankingOpenedFromEnd=false;
 document.querySelector('#endRanking').onclick=async()=>{
  rankingOpenedFromEnd=true;
  document.querySelector('#end').classList.add('hidden');
