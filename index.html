@@ -200,7 +200,8 @@ for(let i=0;i<12;i++){
 // Bukit-bukau berlapis di latar belakang kiri dan kanan jalan.
 const hillMats=[mat(0x5b9b62),mat(0x78b66d),mat(0x477f59),mat(0x9ac77c)];
 for(let i=0;i<14;i++){const side=i%2===0?-1:1,z=-24-Math.floor(i/2)*13,h=7+(i%4)*2.2,w=8+(i%3)*2;const hill=new THREE.Mesh(new THREE.ConeGeometry(w,h,7),hillMats[i%hillMats.length]);hill.position.set(side*(16+(i%3)*2.5),h/2-0.2,z);hill.rotation.y=(i%3)*.35;scene.add(hill);}
-// Barisan pokok disusun berselang-seli dengan jarak yang konsisten untuk mengelakkan pertindihan.\nrefreshCarPreviews();\nconst obstacles=[],bonuses=[],questionBoxes=[];
+// Barisan pokok disusun berselang-seli dengan jarak yang konsisten untuk mengelakkan pertindihan.
+const obstacles=[],bonuses=[],questionBoxes=[];
 let score=0,distance=0,lives=3,speed=18,spawn=0,bonusTimer=0,questionTimer=5.5,running=false,paused=false,invuln=0,playerName='',playerForm='',playerClass='',last=0;
 let questionDeck=[],questionIndex=0;
 
@@ -233,6 +234,9 @@ function refreshCarPreviews(){
   item.renderer.render(item.scene,item.camera);
  });
 }
+// Paparkan model kereta pada kad pilihan selepas renderer dan fungsi siap dibina.
+refreshCarPreviews();
+
 function makeObstacle(){
  // Halangan kini semuanya kereta: sedan, SUV dan kereta sport. Tiada kon.
  const types=['cute','cute','sport'];const kind=types[Math.floor(Math.random()*types.length)];
