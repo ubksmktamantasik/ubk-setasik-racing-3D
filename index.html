@@ -6,7 +6,7 @@
 <style>
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#180b2b;color:#fff;font-family:system-ui,Arial}#game{position:fixed;inset:0}canvas{display:block;width:100%;height:100%}
 .hud{position:fixed;inset:0;padding:12px;display:flex;flex-direction:column;justify-content:space-between;pointer-events:none}.top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.brand,.stat,.hint{background:#241044dc;border:1px solid #ffffff35;border-radius:13px;padding:8px 11px}.brand b{display:block;color:#ffd447;letter-spacing:.08em}.brand small{font-size:9px;letter-spacing:.12em}.stats{display:flex;gap:6px}.stat{text-align:center;min-width:60px}.stat span{display:block;color:#d9cdea;font-size:9px;text-transform:uppercase}.stat strong{font-size:17px;color:#ffd447}.bottom{display:flex;justify-content:space-between;align-items:end;gap:8px}.hint{font-size:11px;line-height:1.4}.controls{display:flex;gap:9px;pointer-events:auto}.sound-toggle{pointer-events:auto;border:1px solid #ffffff70;border-radius:12px;background:#51277ddd;color:#fff;padding:8px 11px;font-weight:800;font-size:11px;cursor:pointer}.sound-toggle.on{background:#ffd447;color:#281442}.ctrl{width:64px;height:58px;border:1px solid #ffffff75;border-radius:17px;background:#51277ddd;color:white;font-size:25px;font-weight:900;touch-action:manipulation}
-.overlay{position:fixed;inset:0;z-index:5;display:grid;place-items:center;padding:16px;background:linear-gradient(135deg,#170a2dec,#32145dec)}.panel{width:min(550px,100%);max-height:95vh;overflow:auto;background:linear-gradient(145deg,#492576,#211039);border:1px solid #ffffff40;border-radius:23px;padding:25px;text-align:center}.logo{font-size:10px;letter-spacing:.16em;color:#ffd447;font-weight:900}.school-logo{display:block;width:88px;height:88px;object-fit:contain;background:#fff;border-radius:18px;padding:5px;margin:0 auto 10px;box-shadow:0 4px 14px #16082735}.panel h1{font-size:clamp(29px,6vw,44px);line-height:1.02;margin:10px 0}.panel h1 em{font-style:normal;color:#ffd447}.sub{color:#e4d8f2;font-size:14px}.pick-title{font-size:12px;font-weight:900;color:#ffd447;text-align:left;margin:13px 0 7px}.car-picks{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.pick{border:1px solid #ffffff55;background:#ffffff12;color:#fff;border-radius:13px;padding:9px 5px;cursor:pointer;font-weight:800;font-size:12px}.pick .car-icon{display:block;font-size:27px;margin-bottom:3px}.pick.selected{background:#ffd447;color:#281442;border:2px solid #fff1a8;box-shadow:0 0 0 2px #ffd44755}.color-picks{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding:5px 0 10px}.color-pick{width:30px;height:30px;border-radius:50%;border:3px solid #ffffff88;cursor:pointer;box-shadow:0 2px 5px #0005}.color-pick.selected{outline:3px solid #ffd447;outline-offset:3px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:9px;text-align:left;margin:18px 0}.fields label{font-size:12px;color:#e9ddf5}.fields input,.fields select{width:100%;margin-top:5px;padding:12px;border-radius:10px;border:1px solid #ffffff40;background:#1c0e30;color:white;font-size:15px}.btn{border:0;border-radius:13px;padding:14px 22px;background:#ffd447;color:#281442;font-size:16px;font-weight:900;cursor:pointer}.note{font-size:11px;color:#d2c2e3;line-height:1.5;margin-top:14px}.hidden{display:none!important}.question{font-size:19px;font-weight:800;margin:16px 0}.answers{display:grid;gap:8px}.answer{background:#ffffff13;border:1px solid #ffffff50;color:white;border-radius:11px;padding:12px;text-align:left;font-size:14px}.msg{color:#ffd447;min-height:24px;margin-top:10px}.answer:disabled{opacity:.7}.qtag{color:#d8b6ff;font-size:11px;font-weight:900;letter-spacing:.12em}.rank-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}.rank-table th,.rank-table td{padding:8px 5px;border-bottom:1px solid #ffffff30;text-align:left}.rank-table th{color:#ffd447}.rank-actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px}.rank-status{font-size:12px;color:#e4d8f2;min-height:20px;margin-top:8px}
+.overlay{position:fixed;inset:0;z-index:5;display:grid;place-items:center;padding:16px;background:linear-gradient(135deg,#170a2dec,#32145dec)}.panel{width:min(550px,100%);max-height:95vh;overflow:auto;background:linear-gradient(145deg,#492576,#211039);border:1px solid #ffffff40;border-radius:23px;padding:25px;text-align:center}.logo{font-size:10px;letter-spacing:.16em;color:#ffd447;font-weight:900}.school-logo{display:block;width:88px;height:88px;object-fit:contain;background:#fff;border-radius:18px;padding:5px;margin:0 auto 10px;box-shadow:0 4px 14px #16082735}.panel h1{font-size:clamp(29px,6vw,44px);line-height:1.02;margin:10px 0}.panel h1 em{font-style:normal;color:#ffd447}.sub{color:#e4d8f2;font-size:14px}.pick-title{font-size:12px;font-weight:900;color:#ffd447;text-align:left;margin:13px 0 7px}.car-picks{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.pick{border:1px solid #ffffff55;background:#ffffff12;color:#fff;border-radius:13px;padding:9px 5px;cursor:pointer;font-weight:800;font-size:12px}.pick .car-icon{display:block;height:34px;margin:0 auto 4px;max-width:92px}.pick .car-icon svg{width:100%;height:100%;display:block;overflow:visible}.pick.selected{background:#ffd447;color:#281442;border:2px solid #fff1a8;box-shadow:0 0 0 2px #ffd44755}.color-picks{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding:5px 0 10px}.color-pick{width:30px;height:30px;border-radius:50%;border:3px solid #ffffff88;cursor:pointer;box-shadow:0 2px 5px #0005}.color-pick.selected{outline:3px solid #ffd447;outline-offset:3px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:9px;text-align:left;margin:18px 0}.fields label{font-size:12px;color:#e9ddf5}.fields input,.fields select{width:100%;margin-top:5px;padding:12px;border-radius:10px;border:1px solid #ffffff40;background:#1c0e30;color:white;font-size:15px}.btn{border:0;border-radius:13px;padding:14px 22px;background:#ffd447;color:#281442;font-size:16px;font-weight:900;cursor:pointer}.note{font-size:11px;color:#d2c2e3;line-height:1.5;margin-top:14px}.hidden{display:none!important}.question{font-size:19px;font-weight:800;margin:16px 0}.answers{display:grid;gap:8px}.answer{background:#ffffff13;border:1px solid #ffffff50;color:white;border-radius:11px;padding:12px;text-align:left;font-size:14px}.msg{color:#ffd447;min-height:24px;margin-top:10px}.answer:disabled{opacity:.7}.qtag{color:#d8b6ff;font-size:11px;font-weight:900;letter-spacing:.12em}.rank-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}.rank-table th,.rank-table td{padding:8px 5px;border-bottom:1px solid #ffffff30;text-align:left}.rank-table th{color:#ffd447}.rank-actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px}.rank-status{font-size:12px;color:#e4d8f2;min-height:20px;margin-top:8px}
 @media(max-width:560px){.hud{padding:8px}.brand{padding:7px 8px}.brand small{font-size:8px}.stat{min-width:48px;padding:6px 4px}.stat strong{font-size:14px}.ctrl{width:57px;height:53px}.hint{font-size:9px;max-width:54%}.fields{grid-template-columns:1fr}.panel{padding:17px}.school-logo{width:70px;height:70px}.car-picks{gap:5px}.pick{padding:7px 3px;font-size:11px}}
 </style></head>
 <body>
@@ -14,7 +14,7 @@
 <div class="hud hidden" id="hud"><div class="top"><div class="brand"><b>UBK SETASIK</b><small>RACING CHALLENGE 3D • V2.2 EDM</small></div><div class="stats"><div class="stat"><span>Skor</span><strong id="score">0</strong></div><div class="stat"><span>Jarak</span><strong id="dist">0m</strong></div><div class="stat"><span>Kelajuan</span><strong id="speed">1.0x</strong></div><div class="stat"><span>Nyawa</span><strong id="lives">♥ ♥ ♥</strong></div></div></div><div class="bottom"><div class="hint">Sentuh ◀ / ▶ untuk bergerak satu lorong<br>Langgar kotak ? untuk kuiz (+100 jika betul) • Diamond +50</div><div class="controls"><button class="sound-toggle on" id="soundToggle" type="button">♫ MUZIK ON</button><button class="ctrl" id="left">◀</button><button class="ctrl" id="right">▶</button></div></div></div>
 <div class="overlay" id="start"><div class="panel"><img class="school-logo" src="logo-sekolah.jpg" alt="Logo rasmi SMK Taman Tasik"><div class="logo">UNIT BIMBINGAN DAN KAUNSELING • SMK TAMAN TASIK</div><h1>RACING<br><em>CHALLENGE 3D</em></h1><p class="sub">V2.2 • EDM RACING • DIAMOND BONUS • TIGA LORONG</p><p class="sub">Elak kereta lain dan sentuh kotak soalan warna-warni untuk cabaran minda!</p>
 <div class="pick-title">1. PILIH KERETA KEGEMARAN</div>
-<div class="car-picks"><button class="pick selected" data-car="cute"><span class="car-icon">🚙</span>COMEL</button><button class="pick" data-car="sport"><span class="car-icon">🏎️</span>SPORT</button><button class="pick" data-car="formula"><span class="car-icon">🏁</span>FORMULA</button></div>
+<div class="car-picks"><button class="pick selected" data-car="cute"><span class="car-icon"><svg viewBox="0 0 120 58" aria-hidden="true"><path d="M14 37 19 25Q22 20 31 19L42 8Q46 4 55 4H78Q84 4 89 11L99 23Q106 25 108 32L108 43H12V39Q12 37 14 37Z" fill="currentColor"/><path d="M45 11H76Q81 11 84 16L91 24H33L43 13Q44 11 45 11Z" fill="#9be7ff"/><circle cx="34" cy="43" r="9" fill="#111827"/><circle cx="34" cy="43" r="4" fill="#dce7f4"/><circle cx="87" cy="43" r="9" fill="#111827"/><circle cx="87" cy="43" r="4" fill="#dce7f4"/></svg></span>COMEL</button><button class="pick" data-car="sport"><span class="car-icon"><svg viewBox="0 0 120 58" aria-hidden="true"><path d="M9 37 22 29 32 17 46 13 77 13 91 22 108 29 112 40H8Z" fill="currentColor"/><path d="M45 16H75L86 25H35Z" fill="#9be7ff"/><path d="M12 28H108L111 33H9Z" fill="#f6c945"/><circle cx="31" cy="42" r="9" fill="#111827"/><circle cx="31" cy="42" r="4" fill="#dce7f4"/><circle cx="90" cy="42" r="9" fill="#111827"/><circle cx="90" cy="42" r="4" fill="#dce7f4"/></svg></span>SPORT</button><button class="pick" data-car="formula"><span class="car-icon"><svg viewBox="0 0 120 58" aria-hidden="true"><path d="M7 34H28L38 22H82L94 34H113V41H7Z" fill="currentColor"/><path d="M46 22 53 10H69L78 22Z" fill="#9be7ff"/><path d="M5 30H32V36H5ZM91 30H116V36H91Z" fill="#dce7f4"/><circle cx="31" cy="43" r="9" fill="#111827"/><circle cx="31" cy="43" r="4" fill="#dce7f4"/><circle cx="91" cy="43" r="9" fill="#111827"/><circle cx="91" cy="43" r="4" fill="#dce7f4"/></svg></span>FORMULA</button></div>
 <div class="pick-title">2. PILIH WARNA KERETA</div>
 <div class="color-picks"><button class="color-pick selected" data-color="843fc0" style="background:#843fc0" aria-label="Ungu"></button><button class="color-pick" data-color="e54242" style="background:#e54242" aria-label="Merah"></button><button class="color-pick" data-color="2587e8" style="background:#2587e8" aria-label="Biru"></button><button class="color-pick" data-color="20a568" style="background:#20a568" aria-label="Hijau"></button><button class="color-pick" data-color="ffb51b" style="background:#ffb51b" aria-label="Kuning"></button><button class="color-pick" data-color="f2f2f2" style="background:#f2f2f2" aria-label="Putih"></button></div>
 <div class="fields"><label>Nama pemain<input id="player" maxlength="24" placeholder="Nama pemain"></label><label>Tingkatan<select id="form"><option value="">Pilih tingkatan</option><option>Tingkatan 1</option><option>Tingkatan 2</option><option>Tingkatan 3</option><option>Tingkatan 4</option><option>Tingkatan 5</option><option>Guru</option></select></label><label style="grid-column:1/-1">Kelas (pilihan)<input id="class" maxlength="24" placeholder="Contoh: ALPHA"></label></div><button class="btn" id="startBtn">MULA PERLUMBAAN</button><div class="rank-actions"><button class="btn" id="openRanking" type="button">🏆 SEMAK RANKING ONLINE</button></div><div class="note">Tiga nyawa. Elak kereta sedan, SUV dan sport. Kotak kuiz berwarna: betul +100, salah 0, terlepas 0. Diamond +50.</div></div></div>
@@ -89,6 +89,29 @@ function makeCar(kind='cute',color=0x843fc0){
    add(new THREE.CylinderGeometry(.075,.075,.245,16),gold,x,.36,z,0,0,Math.PI/2);
    for(let k=0;k<5;k++){const a=k*Math.PI*2/5;ball(whiteLamp,x+Math.sin(a)*.12,.36+Math.cos(a)*.12,z,.025,.025,.025)}
  }
+
+ // Front fascia and sculpted bonnet details make the player vehicle read clearly as a car.
+ if(kind!=='formula'){
+   const hood=add(new THREE.SphereGeometry(1,24,16),paint,0,.57,-.93);
+   hood.scale.set(.62,.18,.53);
+   box(black,0,.43,-1.30,.82,.13,.12,.035);
+   box(dark,0,.43,-1.375,.46,.055,.035,.01);
+   for(const x of [-.53,.53]){
+     const lamp=add(new THREE.SphereGeometry(1,16,12),whiteLamp,x,.66,-1.27);
+     lamp.scale.set(.22,.095,.09);
+     box(paint2,x,.40,-1.34,.26,.07,.08,.025);
+   }
+   // Side glass and door seams, mirrored on both sides.
+   for(const side of [-1,1]){
+     const sideGlass=add(new THREE.BoxGeometry(.055,.27,.63),glass,side*.835,.88,-.12);
+     sideGlass.rotation.y=side*.12;
+     box(paint2,side*.846,.53,.18,.035,.035,.58,.01);
+     box(dark,side*.86,.61,-.02,.035,.055,.11,.01);
+   }
+   // Bonnet highlight strips and rear spoiler accent.
+   for(const x of [-.30,.30])box(whiteLamp,x,.73,-.88,.035,.018,.48,.008);
+ }
+
  // Rear light bar, separate lamps, bumper and exhausts (visible from chase camera).
  box(black,0,.43,1.22,1.42,.17,.16,.07);box(paint2,0,.52,1.28,1.5,.12,.16,.06);
  for(const x of [-.53,.53]){box(red,x,.70,1.18,.34,.15,.07,.045);box(whiteLamp,x,.61,1.20,.18,.055,.045,.02);}
@@ -267,8 +290,8 @@ function audioNote(freq,start,duration,type,volume,destination){
  gain.gain.setValueAtTime(.0001,start);gain.gain.exponentialRampToValueAtTime(volume,start+.02);gain.gain.exponentialRampToValueAtTime(.0001,start+duration);
  osc.connect(filter);filter.connect(gain);gain.connect(destination);osc.start(start);osc.stop(start+duration+.04);
 }
-const bassNotes=[55,55,73.42,55,82.41,73.42,65.41,73.42];
-const synthNotes=[440,523.25,659.25,783.99,659.25,587.33,523.25,659.25];
+const bassNotes=[55,55,65.41,73.42,55,82.41,73.42,65.41];
+const synthNotes=[659.25,783.99,987.77,1174.66,987.77,880,783.99,659.25];
 function noiseHit(start,duration,volume,highpass){
  const n=Math.max(1,Math.floor(audioCtx.sampleRate*duration));
  const buffer=audioCtx.createBuffer(1,n,audioCtx.sampleRate),data=buffer.getChannelData(0);
@@ -280,28 +303,33 @@ function noiseHit(start,duration,volume,highpass){
 }
 function kickHit(start){
  const osc=audioCtx.createOscillator(),gain=audioCtx.createGain();
- osc.type='sine';osc.frequency.setValueAtTime(145,start);osc.frequency.exponentialRampToValueAtTime(42,start+.16);
- gain.gain.setValueAtTime(.0001,start);gain.gain.exponentialRampToValueAtTime(.32,start+.008);gain.gain.exponentialRampToValueAtTime(.0001,start+.22);
- osc.connect(gain);gain.connect(musicGain);osc.start(start);osc.stop(start+.24);
+ osc.type='sine';osc.frequency.setValueAtTime(165,start);osc.frequency.exponentialRampToValueAtTime(38,start+.19);
+ gain.gain.setValueAtTime(.0001,start);gain.gain.exponentialRampToValueAtTime(.42,start+.006);gain.gain.exponentialRampToValueAtTime(.0001,start+.25);
+ osc.connect(gain);gain.connect(musicGain);osc.start(start);osc.stop(start+.27);
+}
+function clapHit(start){
+ noiseHit(start,.16,.20,1200);
+ audioNote(185,start,.13,'triangle',.10,musicGain);
 }
 function musicTick(){
  if(!audioCtx||!soundEnabled)return;
- const t=audioCtx.currentTime+.02,step=musicStep%16,beat=step%4;
- if(beat===0||beat===2)kickHit(t);
- if(beat===1||beat===3)noiseHit(t,.12,.09,1800);
- noiseHit(t+.08,.035,.035,7000);
- const i=step%8;
- audioNote(bassNotes[i],t,.22,'sawtooth',.12,musicGain);
- audioNote(bassNotes[i]*2,t+.02,.14,'triangle',.07,musicGain);
- if(step%2===0)audioNote(synthNotes[i],t+.025,.13,'square',.045,musicGain);
- if(step===0||step===8)audioNote(110,t,.32,'sine',.09,musicGain);
+ const t=audioCtx.currentTime+.018,step=musicStep%16;
+ // 150 BPM, punchy kick/snare pattern with rapid hi-hats.
+ if([0,4,8,12].includes(step))kickHit(t);
+ if([4,12].includes(step))clapHit(t);
+ if(step%2===0)noiseHit(t,.035,.055,6500);
+ if([3,7,11,15].includes(step))noiseHit(t,.025,.025,8500);
+ const i=Math.floor(step/2)%8;
+ audioNote(bassNotes[i],t,.16,'sawtooth',.16,musicGain);
+ if(step%2===0)audioNote(synthNotes[i],t+.01,.12,'square',.055,musicGain);
+ if([0,2,8,10].includes(step))audioNote(synthNotes[(i+2)%8]*2,t+.035,.09,'triangle',.035,musicGain);
  musicStep++;
 }
 function startMusic(){
  ensureAudio();if(!audioCtx)return;
  if(audioCtx.state==='suspended')audioCtx.resume();
  if(musicTimer)clearInterval(musicTimer);
- if(soundEnabled){musicTick();musicTimer=setInterval(musicTick,125);}
+ if(soundEnabled){musicTick();musicTimer=setInterval(musicTick,100);}
 }
 function updateEngine(active){
  if(!audioCtx||!engineGain)return;
@@ -313,12 +341,24 @@ function updateEngine(active){
 function crashSound(){
  if(!soundEnabled)return;ensureAudio();if(!audioCtx)return;
  const t=audioCtx.currentTime;
- audioNote(115,t,.32,'sawtooth',.20,masterGain);
- const buffer=audioCtx.createBuffer(1,Math.floor(audioCtx.sampleRate*.20),audioCtx.sampleRate);
- const d=buffer.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*(1-i/d.length);
- const src=audioCtx.createBufferSource(),gain=audioCtx.createGain(),filter=audioCtx.createBiquadFilter();
- src.buffer=buffer;filter.type='lowpass';filter.frequency.value=1000;gain.gain.value=.18;
- src.connect(filter);filter.connect(gain);gain.connect(masterGain);src.start(t);
+ // Heavy impact thud.
+ const low=audioCtx.createOscillator(),lg=audioCtx.createGain();
+ low.type='sine';low.frequency.setValueAtTime(125,t);low.frequency.exponentialRampToValueAtTime(34,t+.28);
+ lg.gain.setValueAtTime(.0001,t);lg.gain.exponentialRampToValueAtTime(.48,t+.008);lg.gain.exponentialRampToValueAtTime(.0001,t+.34);
+ low.connect(lg);lg.connect(masterGain);low.start(t);low.stop(t+.36);
+ // Metallic body crunch.
+ const n=Math.floor(audioCtx.sampleRate*.30),buffer=audioCtx.createBuffer(1,n,audioCtx.sampleRate),d=buffer.getChannelData(0);
+ for(let i=0;i<n;i++)d[i]=(Math.random()*2-1)*(1-i/n);
+ const src=audioCtx.createBufferSource(),filter=audioCtx.createBiquadFilter(),gain=audioCtx.createGain();
+ src.buffer=buffer;filter.type='bandpass';filter.frequency.setValueAtTime(850,t);filter.Q.value=.7;
+ gain.gain.setValueAtTime(.28,t);gain.gain.exponentialRampToValueAtTime(.0001,t+.30);
+ src.connect(filter);filter.connect(gain);gain.connect(masterGain);src.start(t);src.stop(t+.31);
+ // Brief tyre squeal after impact.
+ const squeal=audioCtx.createOscillator(),sg=audioCtx.createGain(),sf=audioCtx.createBiquadFilter();
+ squeal.type='sawtooth';squeal.frequency.setValueAtTime(1450,t+.025);squeal.frequency.exponentialRampToValueAtTime(780,t+.24);
+ sf.type='lowpass';sf.frequency.value=2200;
+ sg.gain.setValueAtTime(.0001,t+.02);sg.gain.exponentialRampToValueAtTime(.075,t+.05);sg.gain.exponentialRampToValueAtTime(.0001,t+.26);
+ squeal.connect(sf);sf.connect(sg);sg.connect(masterGain);squeal.start(t+.02);squeal.stop(t+.28);
 }
 
 function diamondSound(){
